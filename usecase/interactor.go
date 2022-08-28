@@ -1,8 +1,22 @@
 package usecase
 
-func NewInteractor() Interactor {
-	return Interactor{}
+import "gorm.io/gorm"
+
+func NewInteractor(
+	gormDb *gorm.DB,
+
+) interactor {
+
+	return interactor{
+		gormDb,
+	}
 }
 
-type Interactor struct {
+type interactor struct {
+	gormDb *gorm.DB
+}
+
+func (i *interactor) Interactor() error {
+
+	return nil
 }
