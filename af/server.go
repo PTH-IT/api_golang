@@ -40,5 +40,5 @@ func Run() {
 		Interactor: &interactor,
 	}
 	e.GET("/user", AppV1GetUsers(api))
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":80"))
 }
