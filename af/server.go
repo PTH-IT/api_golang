@@ -3,14 +3,16 @@ package af
 import (
 	"fmt"
 
+	"github.com/PTH-IT/api_golang/adapter/api"
 	usecase "github.com/PTH-IT/api_golang/usecase"
+	"github.com/labstack/echo"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
 func Run() {
-
+	e := echo.New()
 	userName := ""
 	passWord := ""
 	host := ""
@@ -29,10 +31,14 @@ func Run() {
 	})
 	if err != nil {
 	}
-	interactor := usecase.NewInteractor(gormDb)
-	err = interactor.Interactor()
-	if err != nil {
-		fmt.Println(err.Error())
 
+	userRepository := api.NewUser()
+	referrance := usecase.NewReferrance(userRepository)
+	interactor := usecase.NewInteractor(gormDb, referrance)
+
+	api := commonhandler{
+		Interactor: &interactor,
 	}
+	e.GET("/user", AppV1GetUsers(api))
+	e.Logger.Fatal(e.Start(":1323"))
 }

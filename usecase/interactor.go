@@ -1,22 +1,35 @@
 package usecase
 
-import "gorm.io/gorm"
+import (
+	"net/http"
+
+	"github.com/labstack/echo"
+	"gorm.io/gorm"
+)
 
 func NewInteractor(
 	gormDb *gorm.DB,
+	referrance Reference,
 
-) interactor {
+) Interactor {
 
-	return interactor{
+	return Interactor{
 		gormDb,
+		referrance,
 	}
 }
 
-type interactor struct {
-	gormDb *gorm.DB
+type Interactor struct {
+	gormDb     *gorm.DB
+	referrance Reference
 }
 
-func (i *interactor) Interactor() error {
+func (i *Interactor) GetUser(context echo.Context) error {
 
-	return nil
+	result, err := i.referrance.GetUser()
+	if err != nil {
+		return err
+	}
+	return context.JSON(http.StatusOK, result)
+
 }
