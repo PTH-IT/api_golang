@@ -1,6 +1,6 @@
 module github.com/PTH-IT/api_golang
 
-go 1.18
+go 1.17
 
 require (
 	github.com/labstack/echo v3.3.10+incompatible
