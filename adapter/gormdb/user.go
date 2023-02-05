@@ -1,4 +1,4 @@
-package api
+package gormdb
 
 import (
 	"PTH-IT/api_golang/domain/model"
@@ -14,9 +14,7 @@ type userRepository struct {
 
 func (repo userRepository) GetUser() (*model.User, error) {
 
-	iptuser := &model.User{
-		UserID:   "admin",
-		Password: "admin",
-	}
-	return iptuser, nil
+	var user *model.User
+	repo.Begin().Table("user").Find(&user)
+	return user, nil
 }

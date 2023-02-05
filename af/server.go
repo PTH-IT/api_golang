@@ -2,9 +2,13 @@ package af
 
 import (
 	"fmt"
+	"log"
+	"os"
 
-	"github.com/PTH-IT/api_golang/adapter/api"
-	usecase "github.com/PTH-IT/api_golang/usecase"
+	gormdb "PTH-IT/api_golang/adapter/gormdb"
+	usecase "PTH-IT/api_golang/usecase"
+
+	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -13,16 +17,19 @@ import (
 
 func Run() {
 	e := echo.New()
-	userName := ""
-	passWord := ""
-	host := ""
-	port := ""
-	dataBaseName := ""
-	connectString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found")
+	}
+	userName := os.Getenv("DB_USER")
+	passWord := os.Getenv("DB_PASSWORD")
+	host := os.Getenv("DB_HOST")
+	pord := os.Getenv("DB_PORT")
+	dataBaseName := os.Getenv("DB_NAME")
+	connectString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
 		userName,
 		passWord,
 		host,
-		port,
+		pord,
 		dataBaseName,
 	)
 	var err error
@@ -30,15 +37,18 @@ func Run() {
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
+		panic("Failed to connect database")
 	}
-
-	userRepository := api.NewUser()
+	gormdb.Start(gormDb)
+	userRepository := gormdb.NewUser()
 	referrance := usecase.NewReferrance(userRepository)
 	interactor := usecase.NewInteractor(gormDb, referrance)
 
 	api := commonhandler{
 		Interactor: &interactor,
 	}
+
 	e.GET("/user", AppV1GetUsers(api))
-	e.Logger.Fatal(e.Start(":80"))
+	e.POST("/login", AppV1PostLogin(api))
+	e.Logger.Fatal(e.Start(":1909"))
 }

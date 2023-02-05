@@ -1,8 +1,11 @@
 package usecase
 
 import (
+	"PTH-IT/api_golang/domain/model"
+	"PTH-IT/api_golang/utils"
 	"net/http"
 
+	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo"
 	"gorm.io/gorm"
 )
@@ -26,10 +29,24 @@ type Interactor struct {
 
 func (i *Interactor) GetUser(context echo.Context) error {
 
+	authercations := context.Request().Header.Get("token")
+	user := utils.ParseToken(authercations)
+	userID := user.Claims.(jwt.MapClaims)["userID"]
+
+	return context.JSON(http.StatusOK, userID)
+
+}
+func (i *Interactor) LoginUser(context echo.Context) error {
+
 	result, err := i.referrance.GetUser()
 	if err != nil {
 		return err
 	}
-	return context.JSON(http.StatusOK, result)
+	tokenString := utils.GenerateToken(result.UserID)
+	token := &model.Token{
+		Token: tokenString,
+		Type:  "bearer",
+	}
+	return context.JSON(http.StatusOK, token)
 
 }
