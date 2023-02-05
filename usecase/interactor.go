@@ -5,6 +5,8 @@ import (
 	"PTH-IT/api_golang/utils"
 	"net/http"
 
+	gormdb "PTH-IT/api_golang/adapter/gormdb"
+
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/labstack/echo"
 	"gorm.io/gorm"
@@ -31,10 +33,45 @@ func (i *Interactor) GetUser(context echo.Context) error {
 
 	authercations := context.Request().Header.Get("token")
 	user := utils.ParseToken(authercations)
-	userID := user.Claims.(jwt.MapClaims)["userID"]
-
+	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
+	if !utils.GetToken(authercations, userID) {
+		return context.String(http.StatusForbidden, "token awrong")
+	}
 	return context.JSON(http.StatusOK, userID)
 
+}
+
+func (i *Interactor) AddUser(context echo.Context) error {
+	authercations := context.Request().Header.Get("token")
+	user := utils.ParseToken(authercations)
+	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
+	if !utils.GetToken(authercations, userID) {
+		return context.String(http.StatusForbidden, "token awrong")
+	}
+
+	var Adduser model.AddUser
+	err := context.Bind(&Adduser)
+
+	if err != nil {
+		return context.String(http.StatusBadRequest, "no user")
+	}
+	if userID == Adduser.UserID {
+		return context.String(http.StatusBadRequest, "user exists")
+	}
+	cryptPassword := utils.CryptPassword(Adduser.Password)
+	err = gormdb.Begin().Error
+	if err != nil {
+		return err
+	}
+	err = i.referrance.AddtUser(Adduser.UserID, *cryptPassword)
+	if err != nil {
+		return err
+	}
+	err = gormdb.Commit().Error
+	if err != nil {
+		return err
+	}
+	return context.String(http.StatusOK, "susscess")
 }
 func (i *Interactor) LoginUser(context echo.Context) error {
 
@@ -55,6 +92,10 @@ func (i *Interactor) LoginUser(context echo.Context) error {
 	token := &model.Token{
 		Token: tokenString,
 		Type:  "bearer",
+	}
+	err = utils.SetToken(tokenString, user.UserID)
+	if err != nil {
+		return err
 	}
 	return context.JSON(http.StatusOK, token)
 

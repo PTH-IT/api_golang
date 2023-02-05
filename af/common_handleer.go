@@ -22,3 +22,10 @@ func AppV1PostLogin(api commonhandler) echo.HandlerFunc {
 	}
 
 }
+
+func AppV1AddUser(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.AddUser(context)
+	}
+}

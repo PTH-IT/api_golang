@@ -50,5 +50,6 @@ func Run() {
 
 	e.GET("/user", AppV1GetUsers(api))
 	e.POST("/login", AppV1PostLogin(api))
+	e.POST("/adduser", AppV1AddUser(api))
 	e.Logger.Fatal(e.Start(":1909"))
 }
