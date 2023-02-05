@@ -7,3 +7,7 @@ type User struct {
 	TimeCreate string `gorm:"created_time"`
 	TimeUpdate string `gorm:"updated_time"`
 }
+type Login struct {
+	UserID   string `gorm:"UserID"`
+	Password string `gorm:"Password"`
+}

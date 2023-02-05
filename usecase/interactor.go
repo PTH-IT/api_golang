@@ -38,10 +38,19 @@ func (i *Interactor) GetUser(context echo.Context) error {
 }
 func (i *Interactor) LoginUser(context echo.Context) error {
 
-	result, err := i.referrance.GetUser()
+	var user model.Login
+	err := context.Bind(&user)
+	if err != nil {
+		return context.String(http.StatusBadRequest, "no user")
+	}
+	result, err := i.referrance.GetUser(user.UserID, user.Password)
 	if err != nil {
 		return err
 	}
+	if result == nil {
+		return context.String(http.StatusBadRequest, "user no exist")
+	}
+
 	tokenString := utils.GenerateToken(result.UserID)
 	token := &model.Token{
 		Token: tokenString,

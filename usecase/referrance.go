@@ -6,7 +6,7 @@ import (
 )
 
 type Reference interface {
-	GetUser() (*model.User, error)
+	GetUser(userId string, password string) (*model.User, error)
 }
 
 func NewReferrance(
@@ -21,8 +21,8 @@ type reference struct {
 	userRepository repository.UserRepository
 }
 
-func (r reference) GetUser() (*model.User, error) {
+func (r reference) GetUser(userId string, password string) (*model.User, error) {
 
-	user, err := r.userRepository.GetUser()
+	user, err := r.userRepository.GetUser(userId, password)
 	return user, err
 }

@@ -12,7 +12,7 @@ func NewUser() repository.UserRepository {
 type userRepository struct {
 }
 
-func (repo userRepository) GetUser() (*model.User, error) {
+func (repo userRepository) GetUser(userId string, password string) (*model.User, error) {
 
 	iptuser := &model.User{
 		UserID:   "admin",

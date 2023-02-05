@@ -5,5 +5,5 @@ import (
 )
 
 type UserRepository interface {
-	GetUser() (*model.User, error)
+	GetUser(userId string, password string) (*model.User, error)
 }

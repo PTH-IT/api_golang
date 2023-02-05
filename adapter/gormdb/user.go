@@ -12,9 +12,12 @@ func NewUser() repository.UserRepository {
 type userRepository struct {
 }
 
-func (repo userRepository) GetUser() (*model.User, error) {
+func (repo userRepository) GetUser(userId string, password string) (*model.User, error) {
 
-	var user *model.User
-	repo.Begin().Table("user").Find(&user)
-	return user, nil
+	var user []*model.User
+	repo.Begin().Table("user").Where("UserID  = ? and Password = ?", userId, password).Find(&user)
+	if len(user) == 0 {
+		return nil, nil
+	}
+	return user[0], nil
 }
