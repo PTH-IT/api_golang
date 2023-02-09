@@ -2,14 +2,11 @@ package af
 
 import (
 	"fmt"
-	"log"
-	"os"
 
 	gormdb "PTH-IT/api_golang/adapter/gormdb"
 	config "PTH-IT/api_golang/config"
 	usecase "PTH-IT/api_golang/usecase"
 
-	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -18,20 +15,13 @@ import (
 
 func Run() {
 	e := echo.New()
-	if err := godotenv.Load(); err != nil {
-		log.Println("No .env file found")
-	}
-	userName := os.Getenv("DB_USER")
-	passWord := os.Getenv("DB_PASSWORD")
-	host := os.Getenv("DB_HOST")
-	pord := os.Getenv("DB_PORT")
-	dataBaseName := os.Getenv("DB_NAME")
+
 	connectString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
-		userName,
-		passWord,
-		host,
-		pord,
-		dataBaseName,
+		config.Getconfig().Mysql.User,
+		config.Getconfig().Mysql.Pass,
+		config.Getconfig().Mysql.Host,
+		config.Getconfig().Mysql.Port,
+		config.Getconfig().Mysql.Db,
 	)
 	var err error
 	gormDb, err := gorm.Open(mysql.Open(connectString), &gorm.Config{

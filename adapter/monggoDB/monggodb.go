@@ -1,12 +1,12 @@
 package monggodb
 
 import (
+	"PTH-IT/api_golang/config"
 	"context"
 	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/joho/godotenv"
 	"github.com/labstack/echo"
@@ -19,10 +19,7 @@ func getmongo(c echo.Context) error {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
-	uri := os.Getenv("MONGODB_URI")
-	if uri == "" {
-		log.Fatal("You must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
-	}
+	uri := fmt.Sprintf(config.Getconfig().Monggo.Host, config.Getconfig().Monggo.User, config.Getconfig().Monggo.Pass)
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 	if err != nil {
 		panic(err)
@@ -32,7 +29,7 @@ func getmongo(c echo.Context) error {
 			panic(err)
 		}
 	}()
-	coll := client.Database("TEST").Collection("movies")
+	coll := client.Database(config.Getconfig().Monggo.Db).Collection("movies")
 	var result []bson.M
 
 	s, err := coll.Find(context.TODO(), bson.D{})
@@ -51,10 +48,7 @@ func putmongo(c echo.Context) error {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
-	uri := os.Getenv("MONGODB_URI")
-	if uri == "" {
-		log.Fatal("You must set your 'MONGODB_URI' environmental variable. See\n\t https://www.mongodb.com/docs/drivers/go/current/usage-examples/#environment-variable")
-	}
+	uri := fmt.Sprintf(config.Getconfig().Monggo.Host, config.Getconfig().Monggo.User, config.Getconfig().Monggo.Pass)
 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
 	if err != nil {
 		panic(err)
@@ -64,7 +58,7 @@ func putmongo(c echo.Context) error {
 			panic(err)
 		}
 	}()
-	coll := client.Database("TEST").Collection("movies")
+	coll := client.Database(config.Getconfig().Monggo.Db).Collection("movies")
 	title := "Back to the Future"
 
 	coll.InsertOne(context.TODO(), bson.D{{"title", title}})

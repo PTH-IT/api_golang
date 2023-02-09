@@ -6,37 +6,74 @@ import (
 	configprod "PTH-IT/api_golang/config/production"
 	configStg "PTH-IT/api_golang/config/stag"
 	"encoding/json"
-	"fmt"
+	"log"
+	"os"
+
+	"github.com/joho/godotenv"
 )
 
 type AppConfig struct {
-	Env  string `json:"env"`
+	Env    string       `json:"env"`
+	Port   string       `json:"port"`
+	Mysql  MysqlConfig  `json:"mysql"`
+	Monggo MonggoConfig `json:"monggodb"`
+}
+type MysqlConfig struct {
+	Host string `json:"host"`
 	Port string `json:"port"`
+	User string `json:"user"`
+	Pass string `json:"pass"`
+	Db   string `json:"db"`
+}
+type MonggoConfig struct {
+	Host string `json:"host"`
+	User string `json:"user"`
+	Pass string `json:"pass"`
+	Db   string `json:"db"`
 }
 
 func Getconfig() AppConfig {
 	var appConfig AppConfig
-	env := "local"
+	if err := godotenv.Load(); err != nil {
+		log.Println("No .env file found")
+	}
+	env := os.Getenv("ENVIRONMENT")
 	if env == "local" {
 		err := json.Unmarshal([]byte(configLocal.ConfigApp), &appConfig)
 		if err != nil {
-			fmt.Println(err)
+			panic(err)
 		}
 	} else if env == "dev" {
 		err := json.Unmarshal([]byte(configdev.ConfigApp), &appConfig)
 		if err != nil {
-			fmt.Println(err)
+			panic(err)
 		}
 	} else if env == "stg" {
 		err := json.Unmarshal([]byte(configStg.ConfigApp), &appConfig)
 		if err != nil {
-			fmt.Println(err)
+			panic(err)
 		}
 	} else if env == "prod" {
 		err := json.Unmarshal([]byte(configprod.ConfigApp), &appConfig)
 		if err != nil {
-			fmt.Println(err)
+			panic(err)
 		}
+	}
+	if appConfig.Mysql.User == "" {
+		appConfig.Mysql.User = os.Getenv("DB_USER")
+
+	} else if appConfig.Mysql.Pass == "" {
+		appConfig.Mysql.Pass = os.Getenv("DB_PASSWORD")
+
+	} else if appConfig.Mysql.Host == "" {
+		appConfig.Mysql.Host = os.Getenv("DB_HOST")
+
+	} else if appConfig.Mysql.Port == "" {
+		appConfig.Mysql.Port = os.Getenv("DB_PORT")
+
+	} else if appConfig.Mysql.Db == "" {
+		appConfig.Mysql.Db = os.Getenv("DB_NAME")
+
 	}
 	return appConfig
 }
