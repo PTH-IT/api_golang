@@ -2,7 +2,7 @@ package config
 
 const ConfigApp = `{
 	"env":"stg",
-	"port":":80",
+	"port":":1909",
 	"mysql":{
 		"host":"",
         "port":"",
@@ -11,9 +11,15 @@ const ConfigApp = `{
         "db":""
 	},
 	"monggodb":{
-		"host":"mongodb+srv://%s:%s@cluster0.gqs073o.mongodb.net/?retryWrites=true&w=majority",
-        "user":"haupham",
-        "password":"haupham809",
-        "db":"pth"
-	}
+		"host":"",
+        "user":"",
+        "password":"",
+        "db":""
+	},
+	"redis":{
+        "host":"",
+		"port":"",
+        "db":"",
+		"password":""
+    }	
 }`

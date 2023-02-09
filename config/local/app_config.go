@@ -19,7 +19,7 @@ const ConfigApp = `{
 	"redis":{
         "host":"localhost",
 		"port":"6379",
-        "db":0,
+        "db":"0",
 		"password":""
     }	
 	

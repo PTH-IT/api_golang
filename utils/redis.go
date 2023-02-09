@@ -4,6 +4,7 @@ import (
 	"PTH-IT/api_golang/config"
 	"context"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -12,10 +13,14 @@ import (
 var ctx = context.Background()
 
 func RedisClient() *redis.Client {
+	db, err := strconv.Atoi(config.Getconfig().Redis.Db)
+	if err != nil {
+		panic(err)
+	}
 	rdb := redis.NewClient(&redis.Options{
 		Addr:     fmt.Sprintf("%s:%s", config.Getconfig().Redis.Host, config.Getconfig().Redis.Port),
 		Password: config.Getconfig().Redis.Pass, // no password set
-		DB:       config.Getconfig().Redis.Db,   // use default DB
+		DB:       db,                            // use default DB
 	})
 	return rdb
 }

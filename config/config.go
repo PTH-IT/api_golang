@@ -36,7 +36,7 @@ type RedisConfig struct {
 	Host string `json:"host"`
 	Port string `json:"port"`
 	Pass string `json:"password"`
-	Db   int    `json:"db"`
+	Db   string `json:"db"`
 }
 
 func Getconfig() AppConfig {
@@ -66,6 +66,7 @@ func Getconfig() AppConfig {
 			panic(err)
 		}
 	}
+	//MYSQL
 	if appConfig.Mysql.User == "" {
 		appConfig.Mysql.User = os.Getenv("DB_USER")
 
@@ -84,6 +85,40 @@ func Getconfig() AppConfig {
 	}
 	if appConfig.Mysql.Db == "" {
 		appConfig.Mysql.Db = os.Getenv("DB_NAME")
+
+	}
+	//MONGGODB
+	if appConfig.Monggo.Host == "" {
+		appConfig.Monggo.Host = os.Getenv("MONGGO_HOST")
+
+	}
+	if appConfig.Monggo.Host == "" {
+		appConfig.Monggo.User = os.Getenv("MONGGO_USER")
+
+	}
+	if appConfig.Monggo.Host == "" {
+		appConfig.Monggo.Pass = os.Getenv("MONGGO_PASSWORD")
+
+	}
+	if appConfig.Monggo.Host == "" {
+		appConfig.Monggo.Db = os.Getenv("MONGGO_DB")
+
+	}
+	//REDIS
+	if appConfig.Redis.Host == "" {
+		appConfig.Redis.Host = os.Getenv("REDIS_HOST")
+
+	}
+	if appConfig.Redis.Port == "" {
+		appConfig.Redis.Port = os.Getenv("REDIS_PORT")
+
+	}
+	if appConfig.Redis.Pass == "" {
+		appConfig.Redis.Pass = os.Getenv("REDIS_PASSWORD")
+
+	}
+	if appConfig.Redis.Db == "" {
+		appConfig.Redis.Db = os.Getenv("REDIS_DB")
 
 	}
 	return appConfig
