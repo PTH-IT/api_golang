@@ -15,7 +15,13 @@ const ConfigApp = `{
         "user":"haupham",
         "password":"haupham809",
         "db":"pth"
-	}
+	},
+	"redis":{
+        "host":"localhost",
+		"port":"6379",
+        "db":0,
+		"password":""
+    }	
 	
 	
 }`

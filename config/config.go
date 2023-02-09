@@ -17,19 +17,26 @@ type AppConfig struct {
 	Port   string       `json:"port"`
 	Mysql  MysqlConfig  `json:"mysql"`
 	Monggo MonggoConfig `json:"monggodb"`
+	Redis  RedisConfig  `json:"redis"`
 }
 type MysqlConfig struct {
 	Host string `json:"host"`
 	Port string `json:"port"`
 	User string `json:"user"`
-	Pass string `json:"pass"`
+	Pass string `json:"password"`
 	Db   string `json:"db"`
 }
 type MonggoConfig struct {
 	Host string `json:"host"`
 	User string `json:"user"`
-	Pass string `json:"pass"`
+	Pass string `json:"password"`
 	Db   string `json:"db"`
+}
+type RedisConfig struct {
+	Host string `json:"host"`
+	Port string `json:"port"`
+	Pass string `json:"password"`
+	Db   int    `json:"db"`
 }
 
 func Getconfig() AppConfig {
@@ -62,16 +69,20 @@ func Getconfig() AppConfig {
 	if appConfig.Mysql.User == "" {
 		appConfig.Mysql.User = os.Getenv("DB_USER")
 
-	} else if appConfig.Mysql.Pass == "" {
+	}
+	if appConfig.Mysql.Pass == "" {
 		appConfig.Mysql.Pass = os.Getenv("DB_PASSWORD")
 
-	} else if appConfig.Mysql.Host == "" {
+	}
+	if appConfig.Mysql.Host == "" {
 		appConfig.Mysql.Host = os.Getenv("DB_HOST")
 
-	} else if appConfig.Mysql.Port == "" {
+	}
+	if appConfig.Mysql.Port == "" {
 		appConfig.Mysql.Port = os.Getenv("DB_PORT")
 
-	} else if appConfig.Mysql.Db == "" {
+	}
+	if appConfig.Mysql.Db == "" {
 		appConfig.Mysql.Db = os.Getenv("DB_NAME")
 
 	}

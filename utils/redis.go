@@ -1,7 +1,9 @@
 package utils
 
 import (
+	"PTH-IT/api_golang/config"
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/redis/go-redis/v9"
@@ -11,9 +13,9 @@ var ctx = context.Background()
 
 func RedisClient() *redis.Client {
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     fmt.Sprintf("%s:%s", config.Getconfig().Redis.Host, config.Getconfig().Redis.Port),
+		Password: config.Getconfig().Redis.Pass, // no password set
+		DB:       config.Getconfig().Redis.Db,   // use default DB
 	})
 	return rdb
 }
@@ -33,6 +35,7 @@ func SetToken(token string, userID string) error {
 	rdb := RedisClient()
 	err := rdb.Set(ctx, userID, token, time.Duration(time.Minute*199)).Err()
 	if err != nil {
+		fmt.Println(err)
 		return err
 	}
 	return nil
