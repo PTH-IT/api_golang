@@ -6,6 +6,7 @@ import (
 	"os"
 
 	gormdb "PTH-IT/api_golang/adapter/gormdb"
+	config "PTH-IT/api_golang/config"
 	usecase "PTH-IT/api_golang/usecase"
 
 	"github.com/joho/godotenv"
@@ -51,5 +52,5 @@ func Run() {
 	e.GET("/user", AppV1GetUsers(api))
 	e.POST("/login", AppV1PostLogin(api))
 	e.POST("/adduser", AppV1AddUser(api))
-	e.Logger.Fatal(e.Start(":1909"))
+	e.Logger.Fatal(e.Start(config.Getconfig().Port))
 }
