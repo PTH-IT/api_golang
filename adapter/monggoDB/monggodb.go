@@ -15,7 +15,7 @@ import (
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func getmongo(c echo.Context) error {
+func Getmongo(c echo.Context) error {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}
@@ -44,7 +44,7 @@ func getmongo(c echo.Context) error {
 	fmt.Printf("%s\n", jsonData)
 	return c.String(http.StatusOK, string(jsonData))
 }
-func putmongo(c echo.Context) error {
+func Putmongo(c echo.Context) error {
 	if err := godotenv.Load(); err != nil {
 		log.Println("No .env file found")
 	}

@@ -12,12 +12,12 @@ import (
 	"google.golang.org/api/option"
 )
 
-func getfirebase(c echo.Context) error {
+func Getfirebase(c echo.Context) error {
 	ctx := context.Background()
 	conf := &firebase.Config{
 		DatabaseURL: "https://pth-it-default-rtdb.asia-southeast1.firebasedatabase.app",
 	}
-	opt := option.WithCredentialsFile("../../../pth-it-firebase-adminsdk-i11h0-ba3394f404.json")
+	opt := option.WithCredentialsFile("pth-it-firebase-adminsdk-i11h0-4333a623a3.json")
 	app, err := firebase.NewApp(ctx, conf, opt)
 	if err != nil {
 		return c.String(http.StatusOK, err.Error())
@@ -37,12 +37,12 @@ func getfirebase(c echo.Context) error {
 	jsonbody, _ := json.Marshal(get)
 	return c.String(http.StatusOK, string(jsonbody))
 }
-func putfirebase(c echo.Context) error {
+func Putfirebase(c echo.Context) error {
 	ctx := context.Background()
 	conf := &firebase.Config{
 		DatabaseURL: "https://pth-it-default-rtdb.asia-southeast1.firebasedatabase.app",
 	}
-	opt := option.WithCredentialsFile("../../../pth-it-firebase-adminsdk-i11h0-ba3394f404.json")
+	opt := option.WithCredentialsFile("pth-it-firebase-adminsdk-i11h0-4333a623a3.json")
 	app, err := firebase.NewApp(ctx, conf, opt)
 	if err != nil {
 		return c.String(http.StatusOK, err.Error())

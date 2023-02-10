@@ -3,6 +3,7 @@ package af
 import (
 	"fmt"
 
+	firebasedb "PTH-IT/api_golang/adapter/firebaseDB"
 	gormdb "PTH-IT/api_golang/adapter/gormdb"
 	config "PTH-IT/api_golang/config"
 	usecase "PTH-IT/api_golang/usecase"
@@ -42,5 +43,9 @@ func Run() {
 	e.GET("/user", AppV1GetUsers(api))
 	e.POST("/login", AppV1PostLogin(api))
 	e.POST("/adduser", AppV1AddUser(api))
+	e.POST("/addmovies", AppV1AddMovies(api))
+	e.GET("/getmovies", AppV1GetMovies(api))
+	e.GET("/getfirebase", firebasedb.Getfirebase)
+	e.POST("/putfirebase", firebasedb.Putfirebase)
 	e.Logger.Fatal(e.Start(config.Getconfig().Port))
 }
