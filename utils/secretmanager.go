@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"PTH-IT/api_golang/config"
 	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -9,15 +10,22 @@ import (
 	"github.com/aws/aws-sdk-go/service/secretsmanager"
 )
 
-func GetscretManager(secretName string) string {
-	awsEndpoint := "http://localhost:4566"
-	awsRegion := "us-east-1"
+func NewSecretsManager() *secretsmanager.SecretsManager {
+	awsEndpoint := fmt.Sprintf("%s:%s", config.Getconfig().Aws.Host, config.Getconfig().Aws.Port)
+	awsRegion := config.Getconfig().Aws.Region
+	id := config.Getconfig().Aws.Id
+	secret := config.Getconfig().Aws.Secret
+	token := config.Getconfig().Aws.Token
 	svc := secretsmanager.New(session.New(&aws.Config{
 		Region:           aws.String(awsRegion),
 		Endpoint:         aws.String(awsEndpoint),
 		S3ForcePathStyle: aws.Bool(true),
-		Credentials:      credentials.NewStaticCredentials("hau", "hau", ""),
+		Credentials:      credentials.NewStaticCredentials(id, secret, token),
 	}))
+	return svc
+}
+func GetscretManager(secretName string) string {
+	svc := NewSecretsManager()
 	input := &secretsmanager.GetSecretValueInput{
 		SecretId:     aws.String(secretName),
 		VersionStage: aws.String("AWSCURRENT"),

@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"PTH-IT/api_golang/config"
 	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -10,14 +11,17 @@ import (
 )
 
 func GetParameter(name string) (string, error) {
-	awsEndpoint := "http://localhost:4566"
-	awsRegion := "us-east-1"
+	awsEndpoint := fmt.Sprintf("%s:%s", config.Getconfig().Aws.Host, config.Getconfig().Aws.Port)
+	awsRegion := config.Getconfig().Aws.Region
+	id := config.Getconfig().Aws.Id
+	secret := config.Getconfig().Aws.Secret
+	token := config.Getconfig().Aws.Token
 	sess, err := session.NewSessionWithOptions(session.Options{
 		Config: aws.Config{
 			Region:           aws.String(awsRegion),
 			Endpoint:         aws.String(awsEndpoint),
 			S3ForcePathStyle: aws.Bool(true),
-			Credentials:      credentials.NewStaticCredentials("hau", "hau", ""),
+			Credentials:      credentials.NewStaticCredentials(id, secret, token),
 		},
 		SharedConfigState: session.SharedConfigEnable,
 	})
@@ -25,7 +29,7 @@ func GetParameter(name string) (string, error) {
 		panic(err)
 	}
 
-	ssmsvc := ssm.New(sess, aws.NewConfig().WithRegion("us-west-2"))
+	ssmsvc := ssm.New(sess, aws.NewConfig().WithRegion(awsRegion))
 	param, err := ssmsvc.GetParameter(&ssm.GetParameterInput{
 		Name:           aws.String("/MyService/MyApp/Dev/DATABASE_URI"),
 		WithDecryption: aws.Bool(false),

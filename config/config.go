@@ -18,6 +18,7 @@ type AppConfig struct {
 	Mysql  MysqlConfig  `json:"mysql"`
 	Monggo MonggoConfig `json:"monggodb"`
 	Redis  RedisConfig  `json:"redis"`
+	Aws    AwsConfig
 }
 type MysqlConfig struct {
 	Host string `json:"host"`
@@ -37,6 +38,14 @@ type RedisConfig struct {
 	Port string `json:"port"`
 	Pass string `json:"password"`
 	Db   string `json:"db"`
+}
+type AwsConfig struct {
+	Host   string
+	Port   string
+	Region string
+	Id     string
+	Secret string
+	Token  string
 }
 
 func Getconfig() AppConfig {
@@ -66,6 +75,12 @@ func Getconfig() AppConfig {
 			panic(err)
 		}
 	}
+	appConfig.Aws.Host = os.Getenv("AWS_HOST")
+	appConfig.Aws.Port = os.Getenv("AWS_PORT")
+	appConfig.Aws.Region = os.Getenv("AWS_REGION")
+	appConfig.Aws.Id = os.Getenv("AWS_ID")
+	appConfig.Aws.Secret = os.Getenv("AWS_SECRET")
+	appConfig.Aws.Token = os.Getenv("AWS_TOKEN")
 	//MYSQL
 	if appConfig.Mysql.User == "" {
 		appConfig.Mysql.User = os.Getenv("DB_USER")
