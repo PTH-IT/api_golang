@@ -1,8 +1,9 @@
 package af
 
 import (
-	"github.com/PTH-IT/api_golang/usecase"
-	"github.com/labstack/echo"
+	"PTH-IT/api_golang/usecase"
+
+	"github.com/labstack/echo/v4"
 )
 
 type commonhandler struct {
@@ -14,4 +15,43 @@ func AppV1GetUsers(api commonhandler) echo.HandlerFunc {
 		return api.Interactor.GetUser(context)
 	}
 
+}
+func AppV1PostLogin(api commonhandler) echo.HandlerFunc {
+	return func(context echo.Context) error {
+		return api.Interactor.LoginUser(context)
+	}
+
+}
+
+func AppV1AddUser(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.AddUser(context)
+	}
+}
+
+func AppV1AddMovies(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.Putmongo(context)
+	}
+}
+func AppV1GetMovies(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.Getmongo(context)
+	}
+}
+
+func AppV1GetFirebase(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.Getfirebase(context)
+	}
+}
+func AppV1PutFirebase(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.Putfirebase(context)
+	}
 }

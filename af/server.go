@@ -2,43 +2,61 @@ package af
 
 import (
 	"fmt"
+	"io"
 
-	"github.com/PTH-IT/api_golang/adapter/api"
-	usecase "github.com/PTH-IT/api_golang/usecase"
-	"github.com/labstack/echo"
+	firebasedb "PTH-IT/api_golang/adapter/firebaseDB"
+	gormdb "PTH-IT/api_golang/adapter/gormdb"
+	"PTH-IT/api_golang/adapter/monggodb"
+	config "PTH-IT/api_golang/config"
+	usecase "PTH-IT/api_golang/usecase"
+
+	InforLog "PTH-IT/api_golang/log/infor"
+
+	echo "github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
 func Run() {
+	InforLog.PrintLog(fmt.Sprintf("echo.New call"))
 	e := echo.New()
-	userName := ""
-	passWord := ""
-	host := ""
-	port := ""
-	dataBaseName := ""
-	connectString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
-		userName,
-		passWord,
-		host,
-		port,
-		dataBaseName,
+
+	connectString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		config.Getconfig().Mysql.User,
+		config.Getconfig().Mysql.Pass,
+		config.Getconfig().Mysql.Host,
+		config.Getconfig().Mysql.Port,
+		config.Getconfig().Mysql.Db,
 	)
 	var err error
 	gormDb, err := gorm.Open(mysql.Open(connectString), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
+		panic(err)
 	}
-
-	userRepository := api.NewUser()
-	referrance := usecase.NewReferrance(userRepository)
+	gormdb.Start(gormDb)
+	userRepository := gormdb.NewUser()
+	mongoRepository := monggodb.NewMongoDriver()
+	firebaseRepository := firebasedb.NewFirebaseRepository()
+	referrance := usecase.NewReferrance(userRepository, mongoRepository, firebaseRepository)
 	interactor := usecase.NewInteractor(gormDb, referrance)
 
 	api := commonhandler{
 		Interactor: &interactor,
 	}
+	e.POST("/login", AppV1PostLogin(api))
 	e.GET("/user", AppV1GetUsers(api))
-	e.Logger.Fatal(e.Start(":80"))
+	e.POST("/adduser", AppV1AddUser(api))
+	e.POST("/addmovies", AppV1AddMovies(api))
+	e.GET("/getmovies", AppV1GetMovies(api))
+	e.GET("/getfirebase", AppV1GetFirebase(api))
+	e.POST("/putfirebase", AppV1PutFirebase(api))
+
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
+
+	e.Logger.SetOutput(io.Discard)
+	e.Logger.Fatal(e.Start(config.Getconfig().Port))
 }
