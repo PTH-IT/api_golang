@@ -1,8 +1,8 @@
-2023-02-15T04:11:38.474  WARN --- [-functhread3] hypercorn.error            : ASGI Framework Lifespan error, continuing without Lifespan support
-2023-02-15T04:11:38.474  WARN --- [-functhread3] hypercorn.error            : ASGI Framework Lifespan error, continuing without Lifespan support
-2023-02-15T04:11:38.481  INFO --- [-functhread3] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
-2023-02-15T04:11:38.481  INFO --- [-functhread3] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
-2023-02-15T04:12:03.643  INFO --- [   asgi_gw_0] localstack.request.http    : GET / => 200
-2023-02-15T04:12:04.128  INFO --- [functhread14] l.services.motoserver      : starting moto server on http://0.0.0.0:44277
-2023-02-15T04:12:04.128  INFO --- [   asgi_gw_0] localstack.services.infra  : Starting mock S3 service on http port 4566 ...
-2023-02-15T04:12:04.368  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.ListObjects => 404 (404)
+2023-02-16T16:08:05.395  WARN --- [-functhread3] hypercorn.error            : ASGI Framework Lifespan error, continuing without Lifespan support
+2023-02-16T16:08:05.395  WARN --- [-functhread3] hypercorn.error            : ASGI Framework Lifespan error, continuing without Lifespan support
+2023-02-16T16:08:05.404  INFO --- [-functhread3] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
+2023-02-16T16:08:05.404  INFO --- [-functhread3] hypercorn.error            : Running on https://0.0.0.0:4566 (CTRL + C to quit)
+2023-02-16T16:10:02.002  INFO --- [   asgi_gw_0] localstack.request.http    : GET / => 200
+2023-02-16T16:10:02.469  INFO --- [functhread22] l.services.motoserver      : starting moto server on http://0.0.0.0:40947
+2023-02-16T16:10:02.470  INFO --- [   asgi_gw_0] localstack.services.infra  : Starting mock S3 service on http port 4566 ...
+2023-02-16T16:10:02.694  INFO --- [   asgi_gw_0] localstack.request.aws     : AWS s3.ListObjects => 404 (404)

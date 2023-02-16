@@ -29,6 +29,16 @@ type Interactor struct {
 	referrance Reference
 }
 
+// GetUser godoc
+// @Summary GetUser
+// @Description get username from token
+// @Tags user
+// @Accept json
+// @Produce json
+// @Param token header string true "Token"
+// @Success 201 {object} string
+// @Failure 400 {object} string
+// @Router /user [get]
 func (i *Interactor) GetUser(context echo.Context) error {
 
 	authercations := context.Request().Header.Get("token")
@@ -73,6 +83,17 @@ func (i *Interactor) AddUser(context echo.Context) error {
 	}
 	return context.String(http.StatusOK, "susscess")
 }
+
+// LoginUser godoc
+// @Summary LoginUser
+// @Description login username
+// @Tags login
+// @Accept json
+// @Produce json
+// @Param user body  model.Login true "model.Login"
+// @Success 201 {object} model.Token
+// @Failure 400 {object} string
+// @Router /login [post]
 func (i *Interactor) LoginUser(context echo.Context) error {
 
 	var user model.Login

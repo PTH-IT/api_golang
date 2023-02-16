@@ -2,11 +2,14 @@ package af
 
 import (
 	"fmt"
+	"io"
 
 	firebasedb "PTH-IT/api_golang/adapter/firebaseDB"
 	gormdb "PTH-IT/api_golang/adapter/gormdb"
 	config "PTH-IT/api_golang/config"
 	usecase "PTH-IT/api_golang/usecase"
+
+	InforLog "PTH-IT/api_golang/log/infor"
 
 	echo "github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
@@ -16,6 +19,7 @@ import (
 )
 
 func Run() {
+	InforLog.PrintLog(fmt.Sprintf("echo.New call"))
 	e := echo.New()
 
 	connectString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
@@ -30,7 +34,7 @@ func Run() {
 		Logger: logger.Default.LogMode(logger.Info),
 	})
 	if err != nil {
-		panic("Failed to connect database")
+		panic(err)
 	}
 	gormdb.Start(gormDb)
 	userRepository := gormdb.NewUser()
@@ -50,5 +54,6 @@ func Run() {
 	e.POST("/putfirebase", firebasedb.Putfirebase)
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
+	e.Logger.SetOutput(io.Discard)
 	e.Logger.Fatal(e.Start(config.Getconfig().Port))
 }
