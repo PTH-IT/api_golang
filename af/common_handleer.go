@@ -5,7 +5,7 @@ import (
 
 	"PTH-IT/api_golang/adapter/monggodb"
 
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 )
 
 type commonhandler struct {

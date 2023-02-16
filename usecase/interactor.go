@@ -8,7 +8,7 @@ import (
 	gormdb "PTH-IT/api_golang/adapter/gormdb"
 
 	"github.com/golang-jwt/jwt/v4"
-	"github.com/labstack/echo"
+	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
 

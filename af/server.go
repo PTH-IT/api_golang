@@ -8,7 +8,8 @@ import (
 	config "PTH-IT/api_golang/config"
 	usecase "PTH-IT/api_golang/usecase"
 
-	"github.com/labstack/echo"
+	echo "github.com/labstack/echo/v4"
+	echoSwagger "github.com/swaggo/echo-swagger"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
@@ -47,5 +48,7 @@ func Run() {
 	e.GET("/getmovies", AppV1GetMovies(api))
 	e.GET("/getfirebase", firebasedb.Getfirebase)
 	e.POST("/putfirebase", firebasedb.Putfirebase)
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
+
 	e.Logger.Fatal(e.Start(config.Getconfig().Port))
 }
