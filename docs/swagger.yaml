@@ -1,9 +1,25 @@
 definitions:
+  model.AddUser:
+    properties:
+      password:
+        type: string
+      userID:
+        type: string
+    type: object
   model.Login:
     properties:
       password:
         type: string
       userID:
+        type: string
+    type: object
+  model.Movies:
+    properties:
+      Location:
+        type: string
+      Name:
+        type: string
+      Title:
         type: string
     type: object
   model.Token:
@@ -27,6 +43,73 @@ info:
   title: Swagger Example API
   version: "1.0"
 paths:
+  /addmovies:
+    post:
+      consumes:
+      - application/json
+      description: login username
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: Putmongo
+      tags:
+      - MonggoDB
+  /adduser:
+    post:
+      consumes:
+      - application/json
+      description: Add new user to database
+      parameters:
+      - description: Token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: model.AddUser
+        in: body
+        name: token
+        required: true
+        schema:
+          $ref: '#/definitions/model.AddUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: AddUser
+      tags:
+      - gormDB
+  /getmovies:
+    get:
+      consumes:
+      - application/json
+      description: login username
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Movies'
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: Getmongo
+      tags:
+      - MonggoDB
   /login:
     post:
       consumes:
@@ -52,7 +135,7 @@ paths:
             type: string
       summary: LoginUser
       tags:
-      - login
+      - gormDB
   /user:
     get:
       consumes:
@@ -67,8 +150,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Created
+        "200":
+          description: OK
           schema:
             type: string
         "400":
@@ -77,5 +160,5 @@ paths:
             type: string
       summary: GetUser
       tags:
-      - user
+      - gormDB
 swagger: "2.0"

@@ -3,8 +3,6 @@ package af
 import (
 	"PTH-IT/api_golang/usecase"
 
-	"PTH-IT/api_golang/adapter/monggodb"
-
 	"github.com/labstack/echo/v4"
 )
 
@@ -35,12 +33,12 @@ func AppV1AddUser(api commonhandler) echo.HandlerFunc {
 func AppV1AddMovies(api commonhandler) echo.HandlerFunc {
 
 	return func(context echo.Context) error {
-		return monggodb.Putmongo(context)
+		return api.Interactor.Putmongo(context)
 	}
 }
 func AppV1GetMovies(api commonhandler) echo.HandlerFunc {
 
 	return func(context echo.Context) error {
-		return monggodb.Getmongo(context)
+		return api.Interactor.Getmongo(context)
 	}
 }

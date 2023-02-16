@@ -6,6 +6,7 @@ import (
 
 	firebasedb "PTH-IT/api_golang/adapter/firebaseDB"
 	gormdb "PTH-IT/api_golang/adapter/gormdb"
+	"PTH-IT/api_golang/adapter/monggodb"
 	config "PTH-IT/api_golang/config"
 	usecase "PTH-IT/api_golang/usecase"
 
@@ -38,20 +39,21 @@ func Run() {
 	}
 	gormdb.Start(gormDb)
 	userRepository := gormdb.NewUser()
-	referrance := usecase.NewReferrance(userRepository)
+	mongoRepository := monggodb.NewMongoDriver()
+	referrance := usecase.NewReferrance(userRepository, mongoRepository)
 	interactor := usecase.NewInteractor(gormDb, referrance)
 
 	api := commonhandler{
 		Interactor: &interactor,
 	}
-
-	e.GET("/user", AppV1GetUsers(api))
 	e.POST("/login", AppV1PostLogin(api))
+	e.GET("/user", AppV1GetUsers(api))
 	e.POST("/adduser", AppV1AddUser(api))
 	e.POST("/addmovies", AppV1AddMovies(api))
 	e.GET("/getmovies", AppV1GetMovies(api))
 	e.GET("/getfirebase", firebasedb.Getfirebase)
 	e.POST("/putfirebase", firebasedb.Putfirebase)
+
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	e.Logger.SetOutput(io.Discard)
