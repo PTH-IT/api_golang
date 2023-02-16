@@ -42,3 +42,16 @@ func AppV1GetMovies(api commonhandler) echo.HandlerFunc {
 		return api.Interactor.Getmongo(context)
 	}
 }
+
+func AppV1GetFirebase(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.Getfirebase(context)
+	}
+}
+func AppV1PutFirebase(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.Putfirebase(context)
+	}
+}

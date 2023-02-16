@@ -171,3 +171,25 @@ func (i *Interactor) Putmongo(c echo.Context) error {
 	}
 	return c.String(http.StatusOK, "susscess")
 }
+
+func (i *Interactor) Getfirebase(c echo.Context) error {
+	result, err := i.referrance.Getfirebase()
+	if err != nil {
+		return err
+	}
+	jsonBody, err := json.Marshal(result)
+	if err != nil {
+		return err
+	}
+	return c.String(http.StatusOK, string(jsonBody))
+
+}
+
+func (i *Interactor) Putfirebase(c echo.Context) error {
+	err := i.referrance.Putfirebase()
+	if err != nil {
+		return err
+	}
+	return c.String(http.StatusOK, "susscess")
+
+}

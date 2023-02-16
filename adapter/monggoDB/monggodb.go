@@ -2,27 +2,26 @@ package monggodb
 
 import (
 	"PTH-IT/api_golang/config"
+	"PTH-IT/api_golang/domain/model"
+	"PTH-IT/api_golang/domain/repository"
 	"context"
 	"encoding/json"
-	"fmt"
-	"log"
-	"net/http"
 
-	"github.com/joho/godotenv"
-	"github.com/labstack/echo/v4"
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
-func Getmongo(c echo.Context) error {
-	if err := godotenv.Load(); err != nil {
-		log.Println("No .env file found")
-	}
-	uri := fmt.Sprintf(config.Getconfig().Monggo.Host, config.Getconfig().Monggo.User, config.Getconfig().Monggo.Pass)
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
+func NewMongoDriver() repository.MonggoRepository {
+	return MongoDriverRepository{}
+}
+
+type MongoDriverRepository struct {
+}
+
+func (r MongoDriverRepository) Getmongo() ([]*model.Movies, error) {
+	var movies []*model.Movies
+	client, err := Connect()
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
 	defer func() {
 		if err := client.Disconnect(context.TODO()); err != nil {
@@ -35,23 +34,24 @@ func Getmongo(c echo.Context) error {
 	s, err := coll.Find(context.TODO(), bson.D{})
 	s.All(context.TODO(), &result)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	jsonData, err := json.MarshalIndent(result, "", "    ")
+	jsonToByte, err := json.Marshal(result)
 	if err != nil {
-		panic(err)
+		return nil, err
 	}
-	fmt.Printf("%s\n", jsonData)
-	return c.String(http.StatusOK, string(jsonData))
+	err = json.Unmarshal(jsonToByte, &movies)
+	if err != nil {
+		return nil, err
+	}
+	return movies, nil
+
 }
-func Putmongo(c echo.Context) error {
-	if err := godotenv.Load(); err != nil {
-		log.Println("No .env file found")
-	}
-	uri := fmt.Sprintf(config.Getconfig().Monggo.Host, config.Getconfig().Monggo.User, config.Getconfig().Monggo.Pass)
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI(uri))
+func (r MongoDriverRepository) Putmongo() error {
+
+	client, err := Connect()
 	if err != nil {
-		panic(err)
+		return err
 	}
 	defer func() {
 		if err := client.Disconnect(context.TODO()); err != nil {
@@ -59,9 +59,16 @@ func Putmongo(c echo.Context) error {
 		}
 	}()
 	coll := client.Database(config.Getconfig().Monggo.Db).Collection("movies")
-	title := "Back to the Future"
+	movies := &model.Movies{
+		Name:     "tesst",
+		Title:    "tesst",
+		Location: "tesst",
+	}
 
-	coll.InsertOne(context.TODO(), bson.D{{"title", title}})
+	_, err = coll.InsertOne(context.TODO(), movies)
+	if err != nil {
+		return err
+	}
+	return nil
 
-	return c.String(http.StatusOK, "susscess")
 }

@@ -40,7 +40,8 @@ func Run() {
 	gormdb.Start(gormDb)
 	userRepository := gormdb.NewUser()
 	mongoRepository := monggodb.NewMongoDriver()
-	referrance := usecase.NewReferrance(userRepository, mongoRepository)
+	firebaseRepository := firebasedb.NewFirebaseRepository()
+	referrance := usecase.NewReferrance(userRepository, mongoRepository, firebaseRepository)
 	interactor := usecase.NewInteractor(gormDb, referrance)
 
 	api := commonhandler{
@@ -51,8 +52,8 @@ func Run() {
 	e.POST("/adduser", AppV1AddUser(api))
 	e.POST("/addmovies", AppV1AddMovies(api))
 	e.GET("/getmovies", AppV1GetMovies(api))
-	e.GET("/getfirebase", firebasedb.Getfirebase)
-	e.POST("/putfirebase", firebasedb.Putfirebase)
+	e.GET("/getfirebase", AppV1GetFirebase(api))
+	e.POST("/putfirebase", AppV1PutFirebase(api))
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
