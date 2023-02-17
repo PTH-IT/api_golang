@@ -13,11 +13,7 @@ const docTemplate = `{
         "contact": {
             "name": "API Support",
             "url": "http://www.swagger.io/support",
-            "email": "support@swagger.io"
-        },
-        "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+            "email": "haupham404"
         },
         "version": "{{.Version}}"
     },
@@ -98,6 +94,33 @@ const docTemplate = `{
                 }
             }
         },
+        "/getfirebase": {
+            "get": {
+                "description": "getfirebase",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Firebase"
+                ],
+                "summary": "Getfirebase",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/getmovies": {
             "get": {
                 "description": "login username",
@@ -161,6 +184,33 @@ const docTemplate = `{
                         "schema": {
                             "type": "string"
                         }
+                    }
+                }
+            }
+        },
+        "/putfirebase": {
+            "post": {
+                "description": "putfirebase",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Firebase"
+                ],
+                "summary": "Putfirebase",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {}
                     }
                 }
             }

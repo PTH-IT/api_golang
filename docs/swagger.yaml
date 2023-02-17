@@ -32,13 +32,10 @@ definitions:
 host: localhost:1909
 info:
   contact:
-    email: support@swagger.io
+    email: haupham404
     name: API Support
     url: http://www.swagger.io/support
   description: This is a sample server Petstore server.
-  license:
-    name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: http://swagger.io/terms/
   title: Swagger Example API
   version: "1.0"
@@ -92,6 +89,24 @@ paths:
       summary: AddUser
       tags:
       - gormDB
+  /getfirebase:
+    get:
+      consumes:
+      - application/json
+      description: getfirebase
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: Getfirebase
+      tags:
+      - Firebase
   /getmovies:
     get:
       consumes:
@@ -136,6 +151,24 @@ paths:
       summary: LoginUser
       tags:
       - gormDB
+  /putfirebase:
+    post:
+      consumes:
+      - application/json
+      description: putfirebase
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: Putfirebase
+      tags:
+      - Firebase
   /user:
     get:
       consumes:

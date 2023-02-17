@@ -172,6 +172,15 @@ func (i *Interactor) Putmongo(c echo.Context) error {
 	return c.String(http.StatusOK, "susscess")
 }
 
+// Getfirebase godoc
+// @Summary Getfirebase
+// @Description getfirebase
+// @Tags Firebase
+// @Accept json
+// @Produce json
+// @Success 201 {object} string
+// @Failure 400 {object} error
+// @Router /getfirebase [get]
 func (i *Interactor) Getfirebase(c echo.Context) error {
 	result, err := i.referrance.Getfirebase()
 	if err != nil {
@@ -185,6 +194,15 @@ func (i *Interactor) Getfirebase(c echo.Context) error {
 
 }
 
+// Putfirebase godoc
+// @Summary Putfirebase
+// @Description putfirebase
+// @Tags Firebase
+// @Accept json
+// @Produce json
+// @Success 201 {object} string
+// @Failure 400 {object} error
+// @Router /putfirebase [post]
 func (i *Interactor) Putfirebase(c echo.Context) error {
 	err := i.referrance.Putfirebase()
 	if err != nil {
