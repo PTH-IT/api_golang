@@ -3,15 +3,21 @@ package usecase
 import (
 	"PTH-IT/api_golang/domain/model"
 	"PTH-IT/api_golang/domain/repository"
+	InforLog "PTH-IT/api_golang/log/infor"
+	"fmt"
 )
 
 type Reference interface {
-	GetUser(userId string, password string) (*model.User, error)
-	AddtUser(userId string, password string) error
-	Getmongo() ([]*model.Movies, error)
-	Putmongo() error
+	GetUserGormdb(userId string, password string) (*model.User, error)
+	AddtUserGormdb(userId string, password string) error
+
 	Getfirebase() ([]map[string]interface{}, error)
 	Putfirebase() error
+
+	GetMovies() ([]*model.Movies, error)
+	PutMovies() error
+	GetUser(userId string, password string) (*model.GetUser, error)
+	AddUser(userId string, password string) error
 }
 
 func NewReferrance(
@@ -32,25 +38,14 @@ type reference struct {
 	firebaseRepository repository.FirebaseRepository
 }
 
-func (r reference) GetUser(userId string, password string) (*model.User, error) {
+func (r reference) GetUserGormdb(userId string, password string) (*model.User, error) {
 
 	user, err := r.userRepository.GetUser(userId, password)
 	return user, err
 }
-func (r reference) AddtUser(userId string, password string) error {
+func (r reference) AddtUserGormdb(userId string, password string) error {
 
 	err := r.userRepository.AddUser(userId, password)
-	return err
-}
-
-func (r reference) Getmongo() ([]*model.Movies, error) {
-
-	result, err := r.mongoRepository.Getmongo()
-	return result, err
-}
-func (r reference) Putmongo() error {
-
-	err := r.mongoRepository.Putmongo()
 	return err
 }
 
@@ -62,5 +57,27 @@ func (r reference) Getfirebase() ([]map[string]interface{}, error) {
 func (r reference) Putfirebase() error {
 
 	err := r.firebaseRepository.Putfirebase()
+	return err
+}
+
+func (r reference) GetUser(userId string, password string) (*model.GetUser, error) {
+	InforLog.PrintLog(fmt.Sprintf("r.mongoRepository.GetUser call"))
+	user, err := r.mongoRepository.GetUser(userId, password)
+	return user, err
+}
+func (r reference) AddUser(userId string, password string) error {
+	InforLog.PrintLog(fmt.Sprintf("r.mongoRepository.AddUser call"))
+	err := r.mongoRepository.AddUser(userId, password)
+	return err
+}
+
+func (r reference) GetMovies() ([]*model.Movies, error) {
+
+	result, err := r.mongoRepository.Getmongo()
+	return result, err
+}
+func (r reference) PutMovies() error {
+
+	err := r.mongoRepository.Putmongo()
 	return err
 }

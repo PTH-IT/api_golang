@@ -4,10 +4,10 @@ import (
 	"fmt"
 	"io"
 
-	firebasedb "PTH-IT/api_golang/adapter/firebaseDB"
-	gormdb "PTH-IT/api_golang/adapter/gormdb"
-	"PTH-IT/api_golang/adapter/monggodb"
 	config "PTH-IT/api_golang/config"
+	firebasedb "PTH-IT/api_golang/database/firebasedb"
+	gormdb "PTH-IT/api_golang/database/gormdb"
+	"PTH-IT/api_golang/database/monggodb"
 	usecase "PTH-IT/api_golang/usecase"
 
 	InforLog "PTH-IT/api_golang/log/infor"
@@ -47,13 +47,20 @@ func Run() {
 	api := commonhandler{
 		Interactor: &interactor,
 	}
+	g := e.Group("/gormdb")
+
+	g.POST("/login", AppV1PostLoginGormdb(api))
+	g.GET("/user", AppV1GetUsersGormdb(api))
+	g.POST("/adduser", AppV1AddUserGormdb(api))
+	f := e.Group("/firebase")
+
+	f.GET("/getfirebase", AppV1GetFirebase(api))
+	f.POST("/putfirebase", AppV1PutFirebase(api))
+
 	e.POST("/login", AppV1PostLogin(api))
-	e.GET("/user", AppV1GetUsers(api))
 	e.POST("/adduser", AppV1AddUser(api))
 	e.POST("/addmovies", AppV1AddMovies(api))
 	e.GET("/getmovies", AppV1GetMovies(api))
-	e.GET("/getfirebase", AppV1GetFirebase(api))
-	e.POST("/putfirebase", AppV1PutFirebase(api))
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
