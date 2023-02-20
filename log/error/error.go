@@ -54,7 +54,7 @@ func PrintError(messageId string, errMessage error) error {
 
 	var Error = log.New(os.Stdout, "\u001b[31m ", 0)
 
-	Error.Println(string(loggmessage))
+	Error.Println(string(loggmessage) + "\r\n")
 
 	return fmt.Errorf("%v", myErrorMessage)
 

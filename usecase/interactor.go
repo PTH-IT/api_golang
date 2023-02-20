@@ -266,12 +266,12 @@ func (i *Interactor) LoginUser(context echo.Context) error {
 // @Failure 400 {object} string
 // @Router /adduser [post]
 func (i *Interactor) AddUser(context echo.Context) error {
-	authercations := context.Request().Header.Get("token")
-	user := utils.ParseToken(authercations)
-	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
-	if !utils.GetToken(authercations, userID) {
-		return context.String(http.StatusForbidden, "token awrong")
-	}
+	// authercations := context.Request().Header.Get("token")
+	// user := utils.ParseToken(authercations)
+	// userID := user.Claims.(jwt.MapClaims)["userID"].(string)
+	// if !utils.GetToken(authercations, userID) {
+	// 	return context.String(http.StatusForbidden, "token awrong")
+	// }
 
 	var Adduser model.AddUser
 	err := context.Bind(&Adduser)
@@ -279,9 +279,9 @@ func (i *Interactor) AddUser(context echo.Context) error {
 	if err != nil {
 		return context.String(http.StatusBadRequest, "no user")
 	}
-	if userID == Adduser.UserID {
-		return context.String(http.StatusBadRequest, "user exists")
-	}
+	// if userID == Adduser.UserID {
+	// 	return context.String(http.StatusBadRequest, "user exists")
+	// }
 	cryptPassword := utils.CryptPassword(Adduser.Password)
 	err = i.referrance.AddUser(Adduser.UserID, *cryptPassword)
 	if err != nil {

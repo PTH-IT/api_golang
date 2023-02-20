@@ -11,9 +11,9 @@ const ConfigApp = `{
         "db":"pth"
 	},
 	"monggodb":{
-		"host":"mongodb+srv://%s:%s@cluster0.sfofj58.mongodb.net/?retryWrites=true&w=majority",
-        "user":"haupham",
-        "password":"haupham809",
+		"host":"mongodb://localhost:27017%s%s",
+        "user":"",
+        "password":"",
         "db":"pth"
 	},
 	"redis":{

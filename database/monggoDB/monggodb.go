@@ -4,6 +4,7 @@ import (
 	"PTH-IT/api_golang/config"
 	"PTH-IT/api_golang/domain/model"
 	"PTH-IT/api_golang/domain/repository"
+	errormessage "PTH-IT/api_golang/log/error"
 	"context"
 	"encoding/json"
 	"time"
@@ -90,25 +91,25 @@ func (r MongoDriverRepository) GetUser(userId string, password string) (*model.G
 	coll := client.Database(config.Getconfig().Monggo.Db).Collection("users")
 	var result []bson.M
 
-	filter := bson.D{{"userid", userId}, {"password", password}}
+	filter := bson.D{{Key: "userid", Value: userId}, {Key: "password", Value: password}}
 	s, err := coll.Find(context.TODO(), filter)
 	if err != nil {
-		return nil, err
+		return nil, errormessage.PrintError("1", err)
 	}
-	s.All(context.TODO(), &result)
+	err = s.All(context.TODO(), &result)
 	if err != nil {
-		return nil, err
+		return nil, errormessage.PrintError("1", err)
 	}
 	jsonToByte, err := json.Marshal(result)
 	if err != nil {
-		return nil, err
+		return nil, errormessage.PrintError("1", err)
 	}
 	err = json.Unmarshal(jsonToByte, &listUser)
 	if err != nil {
-		return nil, err
+		return nil, errormessage.PrintError("1", err)
 	}
 	if len(listUser) == 0 {
-		return nil, err
+		return nil, errormessage.PrintError("1", err)
 	}
 
 	return listUser[0], nil

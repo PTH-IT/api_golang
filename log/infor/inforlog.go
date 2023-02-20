@@ -27,5 +27,5 @@ func PrintLog(message string) {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Printf(string(loggmessage))
+	fmt.Println(string(loggmessage) + "\r\n")
 }
