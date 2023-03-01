@@ -1,7 +1,7 @@
 package af
 
 import (
-	"github.com/PTH-IT/api_golang/usecase"
+	"PTH-IT/api_golang/usecase"
 
 	"github.com/labstack/echo/v4"
 )

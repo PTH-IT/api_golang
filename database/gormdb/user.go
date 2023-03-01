@@ -3,8 +3,8 @@ package gormdb
 import (
 	"time"
 
-	"github.com/PTH-IT/api_golang/domain/model"
-	"github.com/PTH-IT/api_golang/domain/repository"
+	"PTH-IT/api_golang/domain/model"
+	"PTH-IT/api_golang/domain/repository"
 )
 
 func NewUser() repository.UserRepository {

@@ -5,10 +5,10 @@ import (
 	"log"
 	"os"
 
-	configdev "github.com/PTH-IT/api_golang/config/dev"
-	configLocal "github.com/PTH-IT/api_golang/config/local"
-	configprod "github.com/PTH-IT/api_golang/config/production"
-	configStg "github.com/PTH-IT/api_golang/config/stag"
+	configdev "PTH-IT/api_golang/config/dev"
+	configLocal "PTH-IT/api_golang/config/local"
+	configprod "PTH-IT/api_golang/config/production"
+	configStg "PTH-IT/api_golang/config/stag"
 
 	"github.com/joho/godotenv"
 )
@@ -35,10 +35,11 @@ type MonggoConfig struct {
 	Db   string `json:"db"`
 }
 type RedisConfig struct {
-	Host string `json:"host"`
-	Port string `json:"port"`
-	Pass string `json:"password"`
-	Db   string `json:"db"`
+	Host     string `json:"host"`
+	Port     string `json:"port"`
+	Pass     string `json:"password"`
+	Username string `json:"Username"`
+	Db       string `json:"db"`
 }
 type AwsConfig struct {
 	Host   string
@@ -108,15 +109,15 @@ func Getconfig() AppConfig {
 		appConfig.Monggo.Host = os.Getenv("MONGGO_HOST")
 
 	}
-	if appConfig.Monggo.Host == "" {
+	if appConfig.Monggo.User == "" {
 		appConfig.Monggo.User = os.Getenv("MONGGO_USER")
 
 	}
-	if appConfig.Monggo.Host == "" {
+	if appConfig.Monggo.Pass == "" {
 		appConfig.Monggo.Pass = os.Getenv("MONGGO_PASSWORD")
 
 	}
-	if appConfig.Monggo.Host == "" {
+	if appConfig.Monggo.Db == "" {
 		appConfig.Monggo.Db = os.Getenv("MONGGO_DB")
 
 	}
@@ -131,6 +132,10 @@ func Getconfig() AppConfig {
 	}
 	if appConfig.Redis.Pass == "" {
 		appConfig.Redis.Pass = os.Getenv("REDIS_PASSWORD")
+
+	}
+	if appConfig.Redis.Username == "" {
+		appConfig.Redis.Username = os.Getenv("REDIS_USER")
 
 	}
 	if appConfig.Redis.Db == "" {

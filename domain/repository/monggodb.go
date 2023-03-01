@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/PTH-IT/api_golang/domain/model"
+	"PTH-IT/api_golang/domain/model"
 )
 
 type MonggoRepository interface {

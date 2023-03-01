@@ -5,14 +5,14 @@ import (
 	"io"
 	"net/http"
 
-	config "github.com/PTH-IT/api_golang/config"
-	firebasedb "github.com/PTH-IT/api_golang/database/firebasedb"
-	gormdb "github.com/PTH-IT/api_golang/database/gormdb"
-	"github.com/PTH-IT/api_golang/database/monggodb"
-	usecase "github.com/PTH-IT/api_golang/usecase"
-	"github.com/PTH-IT/api_golang/utils"
+	config "PTH-IT/api_golang/config"
+	firebasedb "PTH-IT/api_golang/database/firebasedb"
+	gormdb "PTH-IT/api_golang/database/gormdb"
+	"PTH-IT/api_golang/database/monggodb"
+	usecase "PTH-IT/api_golang/usecase"
+	"PTH-IT/api_golang/utils"
 
-	InforLog "github.com/PTH-IT/api_golang/log/infor"
+	InforLog "PTH-IT/api_golang/log/infor"
 
 	"github.com/golang-jwt/jwt/v4"
 	echo "github.com/labstack/echo/v4"

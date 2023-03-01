@@ -3,9 +3,9 @@ package usecase
 import (
 	"fmt"
 
-	"github.com/PTH-IT/api_golang/domain/model"
-	"github.com/PTH-IT/api_golang/domain/repository"
-	InforLog "github.com/PTH-IT/api_golang/log/infor"
+	"PTH-IT/api_golang/domain/model"
+	"PTH-IT/api_golang/domain/repository"
+	InforLog "PTH-IT/api_golang/log/infor"
 )
 
 type Reference interface {

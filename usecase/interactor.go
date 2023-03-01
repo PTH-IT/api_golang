@@ -2,15 +2,16 @@ package usecase
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 
-	gormdb "github.com/PTH-IT/api_golang/database/gormdb"
-	"github.com/PTH-IT/api_golang/domain/model"
-	errormessage "github.com/PTH-IT/api_golang/log/error"
-	"github.com/PTH-IT/api_golang/utils"
+	gormdb "PTH-IT/api_golang/database/gormdb"
+	"PTH-IT/api_golang/domain/model"
+	errormessage "PTH-IT/api_golang/log/error"
+	"PTH-IT/api_golang/utils"
 
-	InforLog "github.com/PTH-IT/api_golang/log/infor"
+	InforLog "PTH-IT/api_golang/log/infor"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
@@ -201,7 +202,8 @@ func (i *Interactor) LoginUser(context echo.Context) error {
 		return context.String(http.StatusBadRequest, err.Error())
 	}
 	if result == nil {
-		return context.JSON(http.StatusBadRequest, errormessage.PrintError("2", err).Error())
+		err = errormessage.PrintError("2", errors.New(""))
+		return context.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	tokenString := utils.GenerateToken(result.UserID)
