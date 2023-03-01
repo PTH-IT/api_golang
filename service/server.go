@@ -2,7 +2,6 @@ package af
 
 import (
 	"fmt"
-	"io"
 	"net/http"
 
 	firebasedb "PTH-IT/api_golang/adapter/firebasedb"
@@ -65,7 +64,7 @@ func Run() {
 
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
-	e.Logger.SetOutput(io.Discard)
+	// e.Logger.SetOutput(io.Discard)
 	e.Logger.Fatal(e.Start(config.Getconfig().Port))
 }
 
