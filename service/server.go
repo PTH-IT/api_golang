@@ -62,7 +62,7 @@ func Run() {
 	e.POST("/addmovies", AppV1AddMovies(api))
 	e.GET("/getmovies", AppV1GetMovies(api))
 
-	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	e.GET("/", echoSwagger.WrapHandler)
 
 	// e.Logger.SetOutput(io.Discard)
 	e.Logger.Fatal(e.Start(config.Getconfig().Port))
