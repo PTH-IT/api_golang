@@ -66,7 +66,7 @@ func Run() {
 	e.GET("/", Welcome)
 	fmt.Println("" + config.Getconfig().Port)
 	// e.Logger.SetOutput(io.Discard)
-	e.Logger.Fatal(e.Start(config.Getconfig().Port))
+	e.Logger.Fatal(e.Start(":" + config.Getconfig().Port))
 }
 func Welcome(c echo.Context) error {
 	welcome := fmt.Sprintln("Welcome To Website Test API \n 1. /get-user \n 2. /get-order \n 3. /get-product")
