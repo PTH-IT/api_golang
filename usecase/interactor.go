@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	gormdb "PTH-IT/api_golang/database/gormdb"
+	gormdb "PTH-IT/api_golang/adapter/gormdb"
 	"PTH-IT/api_golang/domain/model"
 	errormessage "PTH-IT/api_golang/log/error"
 	"PTH-IT/api_golang/utils"

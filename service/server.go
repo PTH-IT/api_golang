@@ -6,7 +6,7 @@ import (
 	"net/http"
 
 	config "PTH-IT/api_golang/config"
-	firebasedb "PTH-IT/api_golang/database/firebasedb"
+	firebasedb "PTH-IT/api_golang/adapter/firebasedb"
 	gormdb "PTH-IT/api_golang/database/gormdb"
 	"PTH-IT/api_golang/database/monggodb"
 	usecase "PTH-IT/api_golang/usecase"

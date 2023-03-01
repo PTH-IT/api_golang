@@ -1,9 +1,10 @@
 package firebasedb
 
 import (
-	"PTH-IT/api_golang/domain/repository"
 	"context"
 	"fmt"
+
+	"PTH-IT/api_golang/domain/repository"
 )
 
 func NewFirebaseRepository() repository.FirebaseRepository {
