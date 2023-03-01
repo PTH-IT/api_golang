@@ -3,6 +3,7 @@ package utils
 import (
 	"PTH-IT/api_golang/config"
 	"fmt"
+	"mime/multipart"
 	"os"
 
 	"github.com/aws/aws-sdk-go/aws"
@@ -61,4 +62,20 @@ func DownloadManager(myBucket string, myString string, filename string) {
 		fmt.Printf("failed to download file, %v", err)
 	}
 	fmt.Printf("file downloaded, %d bytes\n", n)
+}
+func AddManager(myBucket string, myString string, f multipart.File) (string, error) {
+	sess := NewSession()
+	uploader := s3manager.NewUploader(sess, func(u *s3manager.Uploader) {
+		// Define a strategy that will buffer 25 MiB in memory
+		u.BufferProvider = s3manager.NewBufferedReadSeekerWriteToPool(2500 * 1024 * 1024)
+	})
+	result, err := uploader.Upload(&s3manager.UploadInput{
+		Bucket: aws.String(myBucket),
+		Key:    aws.String(myString),
+		Body:   f,
+	})
+	if err != nil {
+		return "", err
+	}
+	return result.Location, err
 }

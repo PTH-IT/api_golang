@@ -20,7 +20,7 @@ import (
 func main() {
 	InforLog.PrintLog(fmt.Sprintf("af.Run call"))
 	// fmt.Println(utils.GetscretManager("test"))
-	// utils.UpdateManager("test", "hau", "pth-it-firebase-adminsdk-i11h0-ba3394f404.json")
+	// utils.UpdateManager("test", "hau", "pth-it-firebase-adminsdk-i11h0-4333a623a3.json")
 	// utils.DownloadManager("test", "hau", "tesst.json")
 	af.Run()
 }

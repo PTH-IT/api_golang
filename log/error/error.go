@@ -43,7 +43,7 @@ func PrintError(messageId string, errMessage error) error {
 	myErrorMessage := MyError{
 		Level:        "error",
 		Date:         time.Now().String(),
-		Location:     fmt.Sprintf("%s:%d  ", path.Base(file), lineNo),
+		Location:     fmt.Sprintf("%s:%d", path.Base(file), lineNo),
 		MessageError: errMessage.Error(),
 		MyMessage:    string(stringmessage),
 	}
@@ -54,8 +54,8 @@ func PrintError(messageId string, errMessage error) error {
 
 	var Error = log.New(os.Stdout, "\u001b[31m ", 0)
 
-	Error.Println(string(loggmessage) + "\r\n")
+	Error.Println(string(loggmessage) + "\r")
 
-	return fmt.Errorf("%v", myErrorMessage)
+	return fmt.Errorf("%v", string(stringmessage))
 
 }

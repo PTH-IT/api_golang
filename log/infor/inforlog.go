@@ -20,12 +20,12 @@ func PrintLog(message string) {
 	myinfoMessage := MyInfo{
 		Level:    "info",
 		Date:     time.Now().String(),
-		Location: fmt.Sprintf("%s:%d  ", path.Base(file), lineNo),
+		Location: fmt.Sprintf("%s:%d", path.Base(file), lineNo),
 		Info:     message,
 	}
 	loggmessage, err := json.Marshal(myinfoMessage)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(string(loggmessage) + "\r\n")
+	fmt.Println(string(loggmessage) + "\r")
 }

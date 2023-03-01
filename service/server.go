@@ -3,46 +3,47 @@ package af
 import (
 	"fmt"
 	"io"
+	"net/http"
 
 	config "PTH-IT/api_golang/config"
 	firebasedb "PTH-IT/api_golang/database/firebasedb"
 	gormdb "PTH-IT/api_golang/database/gormdb"
 	"PTH-IT/api_golang/database/monggodb"
 	usecase "PTH-IT/api_golang/usecase"
+	"PTH-IT/api_golang/utils"
 
 	InforLog "PTH-IT/api_golang/log/infor"
 
+	"github.com/golang-jwt/jwt/v4"
 	echo "github.com/labstack/echo/v4"
 	echoSwagger "github.com/swaggo/echo-swagger"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-	"gorm.io/gorm/logger"
 )
 
 func Run() {
 	InforLog.PrintLog(fmt.Sprintf("echo.New call"))
 	e := echo.New()
 
-	connectString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
-		config.Getconfig().Mysql.User,
-		config.Getconfig().Mysql.Pass,
-		config.Getconfig().Mysql.Host,
-		config.Getconfig().Mysql.Port,
-		config.Getconfig().Mysql.Db,
-	)
+	// connectString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+	// 	config.Getconfig().Mysql.User,
+	// 	config.Getconfig().Mysql.Pass,
+	// 	config.Getconfig().Mysql.Host,
+	// 	config.Getconfig().Mysql.Port,
+	// 	config.Getconfig().Mysql.Db,
+	// )
 	var err error
-	gormDb, err := gorm.Open(mysql.Open(connectString), &gorm.Config{
-		Logger: logger.Default.LogMode(logger.Info),
-	})
+	// gormDb, err := gorm.Open(mysql.Open(connectString), &gorm.Config{
+	// 	Logger: logger.Default.LogMode(logger.Info),
+	// })
 	if err != nil {
 		panic(err)
 	}
-	gormdb.Start(gormDb)
+	// gormdb.Start(gormDb)
 	userRepository := gormdb.NewUser()
 	mongoRepository := monggodb.NewMongoDriver()
 	firebaseRepository := firebasedb.NewFirebaseRepository()
 	referrance := usecase.NewReferrance(userRepository, mongoRepository, firebaseRepository)
-	interactor := usecase.NewInteractor(gormDb, referrance)
+	// interactor := usecase.NewInteractor(gormDb, referrance)
+	interactor := usecase.NewInteractor(referrance)
 
 	api := commonhandler{
 		Interactor: &interactor,
@@ -66,4 +67,14 @@ func Run() {
 
 	e.Logger.SetOutput(io.Discard)
 	e.Logger.Fatal(e.Start(config.Getconfig().Port))
+}
+
+func Checktoken(context echo.Context) error {
+	authercations := context.Request().Header.Get("Authorization")
+	user := utils.ParseToken(authercations)
+	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
+	if !utils.GetToken(authercations, userID) {
+		return context.String(http.StatusForbidden, "token awrong")
+	}
+	return nil
 }

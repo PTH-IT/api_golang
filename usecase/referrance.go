@@ -15,7 +15,7 @@ type Reference interface {
 	Putfirebase() error
 
 	GetMovies() ([]*model.Movies, error)
-	PutMovies() error
+	AddMovies(name string, title string, location string) error
 	GetUser(userId string, password string) (*model.GetUser, error)
 	AddUser(userId string, password string) error
 }
@@ -76,8 +76,8 @@ func (r reference) GetMovies() ([]*model.Movies, error) {
 	result, err := r.mongoRepository.Getmongo()
 	return result, err
 }
-func (r reference) PutMovies() error {
+func (r reference) AddMovies(name string, title string, location string) error {
 
-	err := r.mongoRepository.Putmongo()
+	err := r.mongoRepository.AddMovies(name, title, location)
 	return err
 }

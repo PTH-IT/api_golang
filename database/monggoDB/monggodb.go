@@ -49,7 +49,7 @@ func (r MongoDriverRepository) Getmongo() ([]*model.Movies, error) {
 	return movies, nil
 
 }
-func (r MongoDriverRepository) Putmongo() error {
+func (r MongoDriverRepository) AddMovies(name string, title string, location string) error {
 
 	client, err := Connect()
 	if err != nil {
@@ -62,9 +62,9 @@ func (r MongoDriverRepository) Putmongo() error {
 	}()
 	coll := client.Database(config.Getconfig().Monggo.Db).Collection("movies")
 	movies := &model.Movies{
-		Name:     "tesst",
-		Title:    "tesst",
-		Location: "tesst",
+		Name:     name,
+		Title:    title,
+		Location: location,
 	}
 
 	_, err = coll.InsertOne(context.TODO(), movies)
@@ -109,7 +109,7 @@ func (r MongoDriverRepository) GetUser(userId string, password string) (*model.G
 		return nil, errormessage.PrintError("1", err)
 	}
 	if len(listUser) == 0 {
-		return nil, errormessage.PrintError("1", err)
+		return nil, nil
 	}
 
 	return listUser[0], nil

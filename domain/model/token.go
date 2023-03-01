@@ -1,6 +1,6 @@
 package model
 
 type Token struct {
-	Token string `json:"token"`
-	Type  string `json:"type"`
+	Authorization string `json:"Authorization"`
+	Type          string `json:"type"`
 }
