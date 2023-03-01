@@ -5,10 +5,10 @@ import (
 	"io"
 	"net/http"
 
-	config "PTH-IT/api_golang/config"
 	firebasedb "PTH-IT/api_golang/adapter/firebasedb"
-	gormdb "PTH-IT/api_golang/database/gormdb"
-	"PTH-IT/api_golang/database/monggodb"
+	gormdb "PTH-IT/api_golang/adapter/gormdb"
+	"PTH-IT/api_golang/adapter/monggodb"
+	config "PTH-IT/api_golang/config"
 	usecase "PTH-IT/api_golang/usecase"
 	"PTH-IT/api_golang/utils"
 
