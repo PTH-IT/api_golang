@@ -62,12 +62,17 @@ func Run() {
 	e.POST("/addmovies", AppV1AddMovies(api))
 	e.GET("/getmovies", AppV1GetMovies(api))
 
-	e.GET("/", echoSwagger.WrapHandler)
-
+	e.GET("/swagger/*", echoSwagger.WrapHandler)
+	e.GET("/", Welcome)
+	fmt.Println("" + config.Getconfig().Port)
 	// e.Logger.SetOutput(io.Discard)
 	e.Logger.Fatal(e.Start(config.Getconfig().Port))
 }
+func Welcome(c echo.Context) error {
+	welcome := fmt.Sprintln("Welcome To Website Test API \n 1. /get-user \n 2. /get-order \n 3. /get-product")
 
+	return c.String(http.StatusOK, welcome)
+}
 func Checktoken(context echo.Context) error {
 	authercations := context.Request().Header.Get("Authorization")
 	user := utils.ParseToken(authercations)
