@@ -1,9 +1,10 @@
 package gormdb
 
 import (
-	"PTH-IT/api_golang/domain/model"
-	"PTH-IT/api_golang/domain/repository"
 	"time"
+
+	"github.com/PTH-IT/api_golang/domain/model"
+	"github.com/PTH-IT/api_golang/domain/repository"
 )
 
 func NewUser() repository.UserRepository {

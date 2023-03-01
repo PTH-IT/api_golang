@@ -1,10 +1,11 @@
 package usecase
 
 import (
-	"PTH-IT/api_golang/domain/model"
-	"PTH-IT/api_golang/domain/repository"
-	InforLog "PTH-IT/api_golang/log/infor"
 	"fmt"
+
+	"github.com/PTH-IT/api_golang/domain/model"
+	"github.com/PTH-IT/api_golang/domain/repository"
+	InforLog "github.com/PTH-IT/api_golang/log/infor"
 )
 
 type Reference interface {

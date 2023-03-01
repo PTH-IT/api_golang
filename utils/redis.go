@@ -1,11 +1,12 @@
 package utils
 
 import (
-	"PTH-IT/api_golang/config"
 	"context"
 	"fmt"
 	"strconv"
 	"time"
+
+	"github.com/PTH-IT/api_golang/config"
 
 	"github.com/redis/go-redis/v9"
 )

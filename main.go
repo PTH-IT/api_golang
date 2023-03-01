@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	_ "PTH-IT/api_golang/docs"
-	InforLog "PTH-IT/api_golang/log/infor"
-	af "PTH-IT/api_golang/service"
+	_ "github.com/PTH-IT/api_golang/docs"
+	InforLog "github.com/PTH-IT/api_golang/log/infor"
+	af "github.com/PTH-IT/api_golang/service"
 )
 
 // @title Swagger Example API

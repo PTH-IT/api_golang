@@ -1,13 +1,14 @@
 package config
 
 import (
-	configdev "PTH-IT/api_golang/config/dev"
-	configLocal "PTH-IT/api_golang/config/local"
-	configprod "PTH-IT/api_golang/config/production"
-	configStg "PTH-IT/api_golang/config/stag"
 	"encoding/json"
 	"log"
 	"os"
+
+	configdev "github.com/PTH-IT/api_golang/config/dev"
+	configLocal "github.com/PTH-IT/api_golang/config/local"
+	configprod "github.com/PTH-IT/api_golang/config/production"
+	configStg "github.com/PTH-IT/api_golang/config/stag"
 
 	"github.com/joho/godotenv"
 )

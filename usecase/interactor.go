@@ -1,15 +1,16 @@
 package usecase
 
 import (
-	gormdb "PTH-IT/api_golang/database/gormdb"
-	"PTH-IT/api_golang/domain/model"
-	errormessage "PTH-IT/api_golang/log/error"
-	"PTH-IT/api_golang/utils"
 	"encoding/json"
 	"fmt"
 	"net/http"
 
-	InforLog "PTH-IT/api_golang/log/infor"
+	gormdb "github.com/PTH-IT/api_golang/database/gormdb"
+	"github.com/PTH-IT/api_golang/domain/model"
+	errormessage "github.com/PTH-IT/api_golang/log/error"
+	"github.com/PTH-IT/api_golang/utils"
+
+	InforLog "github.com/PTH-IT/api_golang/log/infor"
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"

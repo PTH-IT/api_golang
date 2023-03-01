@@ -1,10 +1,11 @@
 package utils
 
 import (
-	"PTH-IT/api_golang/config"
 	"fmt"
 	"mime/multipart"
 	"os"
+
+	"github.com/PTH-IT/api_golang/config"
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
