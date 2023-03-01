@@ -56,8 +56,8 @@
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Token",
-                        "name": "token",
+                        "description": "Authorization",
+                        "name": "Authorization",
                         "in": "header",
                         "required": true
                     },
@@ -87,7 +87,7 @@
                 }
             }
         },
-        "/getfirebase": {
+        "/firebase/getfirebase": {
             "get": {
                 "description": "getfirebase",
                 "consumes": [
@@ -114,6 +114,33 @@
                 }
             }
         },
+        "/firebase/putfirebase": {
+            "post": {
+                "description": "putfirebase",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Firebase"
+                ],
+                "summary": "Putfirebase",
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {}
+                    }
+                }
+            }
+        },
         "/getmovies": {
             "get": {
                 "description": "login username",
@@ -126,7 +153,7 @@
                 "tags": [
                     "MonggoDB"
                 ],
-                "summary": "Getmongo",
+                "summary": "GetMovies",
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -137,6 +164,131 @@
                     "400": {
                         "description": "Bad Request",
                         "schema": {}
+                    }
+                }
+            }
+        },
+        "/gormdb/adduser": {
+            "post": {
+                "description": "Add new user to database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gormDB"
+                ],
+                "summary": "AddUser",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorizationc",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "model.AddUser",
+                        "name": "token",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.AddUser"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/gormdb/login": {
+            "post": {
+                "description": "login username",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gormDB"
+                ],
+                "summary": "LoginUser",
+                "parameters": [
+                    {
+                        "description": "model.Login",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.Login"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "$ref": "#/definitions/model.Token"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/gormdb/user": {
+            "get": {
+                "description": "get username from token",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "gormDB"
+                ],
+                "summary": "GetUser",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Authorization",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
                     }
                 }
             }
@@ -180,71 +332,6 @@
                     }
                 }
             }
-        },
-        "/putfirebase": {
-            "post": {
-                "description": "putfirebase",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Firebase"
-                ],
-                "summary": "Putfirebase",
-                "responses": {
-                    "201": {
-                        "description": "Created",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {}
-                    }
-                }
-            }
-        },
-        "/user": {
-            "get": {
-                "description": "get username from token",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "gormDB"
-                ],
-                "summary": "GetUser",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
@@ -273,13 +360,13 @@
         "model.Movies": {
             "type": "object",
             "properties": {
-                "Location": {
+                "location": {
                     "type": "string"
                 },
-                "Name": {
+                "name": {
                     "type": "string"
                 },
-                "Title": {
+                "title": {
                     "type": "string"
                 }
             }
@@ -287,7 +374,7 @@
         "model.Token": {
             "type": "object",
             "properties": {
-                "token": {
+                "Authorization": {
                     "type": "string"
                 },
                 "type": {

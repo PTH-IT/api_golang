@@ -15,16 +15,16 @@ definitions:
     type: object
   model.Movies:
     properties:
-      Location:
+      location:
         type: string
-      Name:
+      name:
         type: string
-      Title:
+      title:
         type: string
     type: object
   model.Token:
     properties:
-      token:
+      Authorization:
         type: string
       type:
         type: string
@@ -64,9 +64,9 @@ paths:
       - application/json
       description: Add new user to database
       parameters:
-      - description: Token
+      - description: Authorization
         in: header
-        name: token
+        name: Authorization
         required: true
         type: string
       - description: model.AddUser
@@ -89,7 +89,7 @@ paths:
       summary: AddUser
       tags:
       - gormDB
-  /getfirebase:
+  /firebase/getfirebase:
     get:
       consumes:
       - application/json
@@ -107,6 +107,24 @@ paths:
       summary: Getfirebase
       tags:
       - Firebase
+  /firebase/putfirebase:
+    post:
+      consumes:
+      - application/json
+      description: putfirebase
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: Putfirebase
+      tags:
+      - Firebase
   /getmovies:
     get:
       consumes:
@@ -122,10 +140,41 @@ paths:
         "400":
           description: Bad Request
           schema: {}
-      summary: Getmongo
+      summary: GetMovies
       tags:
       - MonggoDB
-  /login:
+  /gormdb/adduser:
+    post:
+      consumes:
+      - application/json
+      description: Add new user to database
+      parameters:
+      - description: Authorizationc
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: model.AddUser
+        in: body
+        name: token
+        required: true
+        schema:
+          $ref: '#/definitions/model.AddUser'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: AddUser
+      tags:
+      - gormDB
+  /gormdb/login:
     post:
       consumes:
       - application/json
@@ -151,33 +200,15 @@ paths:
       summary: LoginUser
       tags:
       - gormDB
-  /putfirebase:
-    post:
-      consumes:
-      - application/json
-      description: putfirebase
-      produces:
-      - application/json
-      responses:
-        "201":
-          description: Created
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema: {}
-      summary: Putfirebase
-      tags:
-      - Firebase
-  /user:
+  /gormdb/user:
     get:
       consumes:
       - application/json
       description: get username from token
       parameters:
-      - description: Token
+      - description: Authorization
         in: header
-        name: token
+        name: Authorization
         required: true
         type: string
       produces:
@@ -192,6 +223,32 @@ paths:
           schema:
             type: string
       summary: GetUser
+      tags:
+      - gormDB
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: login username
+      parameters:
+      - description: model.Login
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/model.Login'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/model.Token'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: LoginUser
       tags:
       - gormDB
 swagger: "2.0"
