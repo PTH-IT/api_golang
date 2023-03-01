@@ -84,7 +84,7 @@ func Getconfig() AppConfig {
 	appConfig.Aws.Secret = os.Getenv("AWS_SECRET")
 	appConfig.Aws.Token = os.Getenv("AWS_TOKEN")
 	if appConfig.Port == "" {
-		appConfig.Port = os.Getenv("POST")
+		appConfig.Port = os.Getenv("PORT")
 	}
 	//MYSQL
 	if appConfig.Mysql.User == "" {
