@@ -13,7 +13,7 @@ type Login struct {
 }
 
 type RegisterUser struct {
-	UserID   string `gorm:"UserID"`
-	Password string `gorm:"Password"`
-	Email    string `gorm:"email"`
+	UserID   string `json:"UserID"`
+	Password string `json:"Password"`
+	Email    string `json:"email"`
 }

@@ -234,7 +234,7 @@ func (i *Interactor) RegisterUser(context echo.Context) error {
 	var Adduser model.RegisterUser
 	err := context.Bind(&Adduser)
 
-	if err != nil {
+	if err != nil || Adduser.Email == "" || Adduser.UserID == "" || Adduser.Password == "" {
 		errData := map[string]interface{}{
 			"message": "request body is invalid",
 		}
