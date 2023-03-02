@@ -62,9 +62,16 @@ func AppV1PostLogin(api commonhandler) echo.HandlerFunc {
 	}
 
 }
-func AppV1AddUser(api commonhandler) echo.HandlerFunc {
+func AppV1RegisterUser(api commonhandler) echo.HandlerFunc {
 
 	return func(context echo.Context) error {
-		return api.Interactor.AddUser(context)
+		return api.Interactor.RegisterUser(context)
+	}
+}
+
+func AppV1GetMessage(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.GetMessage(context)
 	}
 }

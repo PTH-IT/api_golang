@@ -18,7 +18,8 @@ type Reference interface {
 	GetMovies() ([]*model.Movies, error)
 	AddMovies(name string, title string, location string) error
 	GetUser(userId string, password string) (*model.GetUser, error)
-	AddUser(userId string, password string) error
+	CheckUserName(userId string, email string) ([]*model.GetUser, error)
+	AddUser(userId string, password string, email string) error
 }
 
 func NewReferrance(
@@ -60,15 +61,19 @@ func (r reference) Putfirebase() error {
 	err := r.firebaseRepository.Putfirebase()
 	return err
 }
-
+func (r reference) CheckUserName(userId string, email string) ([]*model.GetUser, error) {
+	InforLog.PrintLog(fmt.Sprintf("r.mongoRepository.GetUser call"))
+	user, err := r.mongoRepository.CheckUserName(userId, email)
+	return user, err
+}
 func (r reference) GetUser(userId string, password string) (*model.GetUser, error) {
 	InforLog.PrintLog(fmt.Sprintf("r.mongoRepository.GetUser call"))
 	user, err := r.mongoRepository.GetUser(userId, password)
 	return user, err
 }
-func (r reference) AddUser(userId string, password string) error {
+func (r reference) AddUser(userId string, password string, email string) error {
 	InforLog.PrintLog(fmt.Sprintf("r.mongoRepository.AddUser call"))
-	err := r.mongoRepository.AddUser(userId, password)
+	err := r.mongoRepository.AddUser(userId, password, email)
 	return err
 }
 

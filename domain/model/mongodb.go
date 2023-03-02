@@ -12,7 +12,21 @@ type GetUser struct {
 	ID          primitive.ObjectID `bson:"_id"`
 	UserID      string             `bson:"userid"`
 	Password    string             `bson:"password"`
+	Email       string             `bson:"email"`
+	ActiceEmail string             `bson:"actice"`
 	Status      string             `bson:"status"`
 	CreatedTime string             `bson:"createdtime"`
 	UpdatedTime string             `bson:"updatedtime"`
+}
+type RegisterUserMonggo struct {
+	UserID      string `bson:"userid"`
+	Password    string `bson:"password"`
+	Email       string `bson:"email"`
+	ActiceEmail string `bson:"actice"`
+	Status      string `bson:"status"`
+	CreatedTime string `bson:"createdtime"`
+	UpdatedTime string `bson:"updatedtime"`
+}
+type MessageCheckUser struct {
+	Type string `json:"type"`
 }

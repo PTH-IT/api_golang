@@ -12,7 +12,8 @@ type Login struct {
 	Password string `gorm:"Password"`
 }
 
-type AddUser struct {
+type RegisterUser struct {
 	UserID   string `gorm:"UserID"`
 	Password string `gorm:"Password"`
+	Email    string `gorm:"email"`
 }

@@ -15,6 +15,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	"github.com/google/uuid"
+	"github.com/gorilla/websocket"
 	"github.com/labstack/echo/v4"
 )
 
@@ -115,7 +116,7 @@ func (i *Interactor) AddUserGormdb(context echo.Context) error {
 		return context.String(http.StatusForbidden, "Authorization awrong")
 	}
 
-	var Adduser model.AddUser
+	var Adduser model.RegisterUser
 	err := context.Bind(&Adduser)
 
 	if err != nil {
@@ -225,40 +226,45 @@ func (i *Interactor) LoginUser(context echo.Context) error {
 // @Tags gormDB
 // @Accept json
 // @Produce json
-// @Param Authorization header string true "Authorization"
-// @Param token body model.AddUser true "model.AddUser"
+// @Param token body model.RegisterUser true "model.RegisterUser"
 // @Success 200 {object} string
 // @Failure 400 {object} string
 // @Router /adduser [post]
-func (i *Interactor) AddUser(context echo.Context) error {
-	authercations := context.Request().Header.Get("Authorization")
-	user := utils.ParseToken(authercations)
-	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
-	if !utils.GetToken(authercations, userID) {
-		return context.String(http.StatusForbidden, "token awrong")
-	}
-
-	var Adduser model.AddUser
+func (i *Interactor) RegisterUser(context echo.Context) error {
+	var Adduser model.RegisterUser
 	err := context.Bind(&Adduser)
 
 	if err != nil {
-		return context.String(http.StatusBadRequest, "no user")
+		errData := map[string]interface{}{
+			"message": "request body is invalid",
+		}
+		return context.JSON(http.StatusBadRequest, errData)
 	}
 
 	cryptPassword := utils.CryptPassword(Adduser.Password)
-	result, err := i.referrance.GetUser(Adduser.UserID, *cryptPassword)
+	result, err := i.referrance.CheckUserName(Adduser.UserID, Adduser.Email)
 	if err != nil {
 		return err
 	}
 
 	if result != nil {
-		return context.String(http.StatusBadRequest, "user exist")
+		var messageError []model.MessageCheckUser
+		for _, r := range result {
+			if r.UserID == Adduser.UserID {
+				messageError = append(messageError, model.MessageCheckUser{Type: "username"})
+			}
+			if r.Email == Adduser.Email {
+				messageError = append(messageError, model.MessageCheckUser{Type: "email"})
+			}
+
+		}
+		return context.JSON(http.StatusBadRequest, messageError)
 	}
-	err = i.referrance.AddUser(Adduser.UserID, *cryptPassword)
+	err = i.referrance.AddUser(Adduser.UserID, *cryptPassword, Adduser.Email)
 	if err != nil {
 		return err
 	}
-	return context.String(http.StatusOK, "susscess")
+	return context.NoContent(http.StatusOK)
 }
 
 // GetMovies godoc
@@ -315,4 +321,39 @@ func (i *Interactor) PutMovies(context echo.Context) error {
 		return err
 	}
 	return context.String(http.StatusOK, "susscess")
+}
+
+var (
+	upgrader = websocket.Upgrader{}
+)
+
+func (i *Interactor) GetMessage(c echo.Context) error {
+	upgrader.CheckOrigin = func(r *http.Request) bool { return true }
+	ws, err := upgrader.Upgrade(c.Response(), c.Request(), nil)
+	if err != nil {
+		return err
+	}
+	defer ws.Close()
+
+	for {
+		// Write
+
+		// Read
+		_, msg, err := ws.ReadMessage()
+		if err != nil {
+			c.Logger().Error(err)
+		}
+		fmt.Printf(string(msg))
+		var msgBody map[string]interface{}
+		err = json.Unmarshal(msg, &msgBody)
+		if err != nil {
+			c.Logger().Error(err)
+		}
+
+		err = ws.WriteMessage(websocket.TextMessage, msg)
+		if err != nil {
+			c.Logger().Error(err)
+		}
+		fmt.Printf("%v\n", msgBody)
+	}
 }
