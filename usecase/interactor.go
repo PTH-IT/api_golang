@@ -184,7 +184,7 @@ func (i *Interactor) Putfirebase(c echo.Context) error {
 // LoginUser godoc
 // @Summary LoginUser
 // @Description login username
-// @Tags gormDB
+// @Tags MonggoDB
 // @Accept json
 // @Produce json
 // @Param user body  model.Login true "model.Login"
@@ -223,7 +223,7 @@ func (i *Interactor) LoginUser(context echo.Context) error {
 // AddUser godoc
 // @Summary AddUser
 // @Description Add new user to database
-// @Tags gormDB
+// @Tags MonggoDB
 // @Accept json
 // @Produce json
 // @Param token body model.RegisterUser true "model.RegisterUser"

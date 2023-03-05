@@ -85,7 +85,7 @@ paths:
             type: string
       summary: AddUser
       tags:
-      - gormDB
+      - MonggoDB
   /firebase/getfirebase:
     get:
       consumes:
@@ -247,5 +247,5 @@ paths:
             type: string
       summary: LoginUser
       tags:
-      - gormDB
+      - MonggoDB
 swagger: "2.0"

@@ -50,7 +50,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "gormDB"
+                    "MonggoDB"
                 ],
                 "summary": "AddUser",
                 "parameters": [
@@ -296,7 +296,7 @@
                     "application/json"
                 ],
                 "tags": [
-                    "gormDB"
+                    "MonggoDB"
                 ],
                 "summary": "LoginUser",
                 "parameters": [

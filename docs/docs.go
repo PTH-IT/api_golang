@@ -57,7 +57,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "gormDB"
+                    "MonggoDB"
                 ],
                 "summary": "AddUser",
                 "parameters": [
@@ -303,7 +303,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "gormDB"
+                    "MonggoDB"
                 ],
                 "summary": "LoginUser",
                 "parameters": [
