@@ -251,10 +251,10 @@ func (i *Interactor) RegisterUser(context echo.Context) error {
 		var messageError []model.MessageCheckUser
 		for _, r := range result {
 			if r.UserID == Adduser.UserID {
-				messageError = append(messageError, model.MessageCheckUser{Type: "username"})
+				messageError = append(messageError, model.MessageCheckUser{Type: "username", Message: "username is exist "})
 			}
 			if r.Email == Adduser.Email {
-				messageError = append(messageError, model.MessageCheckUser{Type: "email"})
+				messageError = append(messageError, model.MessageCheckUser{Type: "email", Message: "email is exist"})
 			}
 
 		}

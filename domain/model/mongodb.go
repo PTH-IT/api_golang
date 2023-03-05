@@ -1,6 +1,8 @@
 package model
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
+import (
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type Movies struct {
 	Name     string `bson:"name"`
@@ -28,5 +30,6 @@ type RegisterUserMonggo struct {
 	UpdatedTime string `bson:"updatedtime"`
 }
 type MessageCheckUser struct {
-	Type string `json:"type"`
+	Type    string `json:"type"`
+	Message string `json:"message"`
 }
