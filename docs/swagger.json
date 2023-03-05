@@ -55,19 +55,12 @@
                 "summary": "AddUser",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Authorization",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "model.AddUser",
+                        "description": "model.RegisterUser",
                         "name": "token",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.AddUser"
+                            "$ref": "#/definitions/model.RegisterUser"
                         }
                     }
                 ],
@@ -190,12 +183,12 @@
                         "required": true
                     },
                     {
-                        "description": "model.AddUser",
+                        "description": "model.RegisterUser",
                         "name": "token",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.AddUser"
+                            "$ref": "#/definitions/model.RegisterUser"
                         }
                     }
                 ],
@@ -335,17 +328,6 @@
         }
     },
     "definitions": {
-        "model.AddUser": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "userID": {
-                    "type": "string"
-                }
-            }
-        },
         "model.Login": {
             "type": "object",
             "properties": {
@@ -367,6 +349,20 @@
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.RegisterUser": {
+            "type": "object",
+            "properties": {
+                "Password": {
+                    "type": "string"
+                },
+                "UserID": {
+                    "type": "string"
+                },
+                "email": {
                     "type": "string"
                 }
             }

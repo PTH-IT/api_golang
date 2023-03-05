@@ -1,11 +1,4 @@
 definitions:
-  model.AddUser:
-    properties:
-      password:
-        type: string
-      userID:
-        type: string
-    type: object
   model.Login:
     properties:
       password:
@@ -20,6 +13,15 @@ definitions:
       name:
         type: string
       title:
+        type: string
+    type: object
+  model.RegisterUser:
+    properties:
+      Password:
+        type: string
+      UserID:
+        type: string
+      email:
         type: string
     type: object
   model.Token:
@@ -64,17 +66,12 @@ paths:
       - application/json
       description: Add new user to database
       parameters:
-      - description: Authorization
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      - description: model.AddUser
+      - description: model.RegisterUser
         in: body
         name: token
         required: true
         schema:
-          $ref: '#/definitions/model.AddUser'
+          $ref: '#/definitions/model.RegisterUser'
       produces:
       - application/json
       responses:
@@ -154,12 +151,12 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: model.AddUser
+      - description: model.RegisterUser
         in: body
         name: token
         required: true
         schema:
-          $ref: '#/definitions/model.AddUser'
+          $ref: '#/definitions/model.RegisterUser'
       produces:
       - application/json
       responses:

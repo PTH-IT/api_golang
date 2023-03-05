@@ -104,7 +104,7 @@ func (i *Interactor) GetUserGormdb(context echo.Context) error {
 // @Accept json
 // @Produce json
 // @Param Authorization header string true "Authorizationc"
-// @Param token body model.AddUser true "model.AddUser"
+// @Param token body model.RegisterUser true "model.RegisterUser"
 // @Success 200 {object} string
 // @Failure 400 {object} string
 // @Router /gormdb/adduser [post]

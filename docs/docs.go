@@ -62,19 +62,12 @@ const docTemplate = `{
                 "summary": "AddUser",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Authorization",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "model.AddUser",
+                        "description": "model.RegisterUser",
                         "name": "token",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.AddUser"
+                            "$ref": "#/definitions/model.RegisterUser"
                         }
                     }
                 ],
@@ -197,12 +190,12 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "model.AddUser",
+                        "description": "model.RegisterUser",
                         "name": "token",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.AddUser"
+                            "$ref": "#/definitions/model.RegisterUser"
                         }
                     }
                 ],
@@ -342,17 +335,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "model.AddUser": {
-            "type": "object",
-            "properties": {
-                "password": {
-                    "type": "string"
-                },
-                "userID": {
-                    "type": "string"
-                }
-            }
-        },
         "model.Login": {
             "type": "object",
             "properties": {
@@ -374,6 +356,20 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "title": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.RegisterUser": {
+            "type": "object",
+            "properties": {
+                "Password": {
+                    "type": "string"
+                },
+                "UserID": {
+                    "type": "string"
+                },
+                "email": {
                     "type": "string"
                 }
             }
