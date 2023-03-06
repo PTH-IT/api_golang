@@ -2,7 +2,6 @@ package usecase
 
 import (
 	"encoding/json"
-	"errors"
 	"fmt"
 	"net/http"
 
@@ -203,8 +202,8 @@ func (i *Interactor) LoginUser(context echo.Context) error {
 		return context.String(http.StatusBadRequest, err.Error())
 	}
 	if result == nil {
-		err = errormessage.PrintError("2", errors.New(""))
-		return context.JSON(http.StatusBadRequest, err.Error())
+
+		return context.JSON(http.StatusForbidden, model.MessageCheckUser{Type: "user", Message: "username or password is not correst"})
 	}
 
 	tokenString := utils.GenerateToken(result.UserID)
