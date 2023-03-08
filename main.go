@@ -16,7 +16,7 @@ import (
 // @contact.name API Support
 // @contact.url http://www.swagger.io/support
 // @contact.email haupham404
-// @host https://apigolang-production.up.railway.app
+// @host localhost:1909
 func main() {
 	InforLog.PrintLog(fmt.Sprintf("af.Run call"))
 	// fmt.Println(utils.GetscretManager("test"))

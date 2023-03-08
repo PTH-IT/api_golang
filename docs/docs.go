@@ -71,6 +71,30 @@ const docTemplate = `{
                 "summary": "AddUser",
                 "parameters": [
                     {
+                        "type": "string",
+                        "default": "application/json",
+                        "description": "application/json",
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1000",
+                        "description": "1000",
+                        "name": "Content-Length",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "localhost",
+                        "description": "localhost",
+                        "name": "Host",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "model.RegisterUser",
                         "name": "token",
                         "in": "body",
@@ -317,6 +341,30 @@ const docTemplate = `{
                 "summary": "LoginUser",
                 "parameters": [
                     {
+                        "type": "string",
+                        "default": "application/json",
+                        "description": "application/json",
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1000",
+                        "description": "1000",
+                        "name": "Content-Length",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "localhost",
+                        "description": "localhost",
+                        "name": "Host",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
                         "description": "model.Login",
                         "name": "user",
                         "in": "body",
@@ -358,6 +406,30 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
+                        "default": "application/json",
+                        "description": "application/json",
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1000",
+                        "description": "1000",
+                        "name": "Content-Length",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "localhost",
+                        "description": "localhost",
+                        "name": "Host",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
                         "description": "Authorization",
                         "name": "Authorization",
                         "in": "header",
@@ -392,6 +464,30 @@ const docTemplate = `{
                 ],
                 "summary": "GetMessage",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "default": "application/json",
+                        "description": "application/json",
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1000",
+                        "description": "1000",
+                        "name": "Content-Length",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "localhost",
+                        "description": "localhost",
+                        "name": "Host",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "description": "model.InputGetMessage",
                         "name": "message",
@@ -430,6 +526,30 @@ const docTemplate = `{
                 ],
                 "summary": "SaveMessage",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "default": "application/json",
+                        "description": "application/json",
+                        "name": "Content-Type",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "1000",
+                        "description": "1000",
+                        "name": "Content-Length",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "default": "localhost",
+                        "description": "localhost",
+                        "name": "Host",
+                        "in": "header",
+                        "required": true
+                    },
                     {
                         "type": "string",
                         "description": "Authorization",
@@ -547,7 +667,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "https://apigolang-production.up.railway.app",
+	Host:             "localhost:1909",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Swagger Example API",

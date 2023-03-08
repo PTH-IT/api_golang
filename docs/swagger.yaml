@@ -49,7 +49,7 @@ definitions:
       type:
         type: string
     type: object
-host: https://apigolang-production.up.railway.app
+host: localhost:1909
 info:
   contact:
     email: haupham404
@@ -90,6 +90,24 @@ paths:
       - application/json
       description: Add new user to database
       parameters:
+      - default: application/json
+        description: application/json
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - default: "1000"
+        description: "1000"
+        in: header
+        name: Content-Length
+        required: true
+        type: string
+      - default: localhost
+        description: localhost
+        in: header
+        name: Host
+        required: true
+        type: string
       - description: model.RegisterUser
         in: body
         name: token
@@ -252,6 +270,24 @@ paths:
       - application/json
       description: login username
       parameters:
+      - default: application/json
+        description: application/json
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - default: "1000"
+        description: "1000"
+        in: header
+        name: Content-Length
+        required: true
+        type: string
+      - default: localhost
+        description: localhost
+        in: header
+        name: Host
+        required: true
+        type: string
       - description: model.Login
         in: body
         name: user
@@ -278,6 +314,24 @@ paths:
       - application/json
       description: GetLogout
       parameters:
+      - default: application/json
+        description: application/json
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - default: "1000"
+        description: "1000"
+        in: header
+        name: Content-Length
+        required: true
+        type: string
+      - default: localhost
+        description: localhost
+        in: header
+        name: Host
+        required: true
+        type: string
       - description: Authorization
         in: header
         name: Authorization
@@ -302,6 +356,24 @@ paths:
       - application/json
       description: GetMessage
       parameters:
+      - default: application/json
+        description: application/json
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - default: "1000"
+        description: "1000"
+        in: header
+        name: Content-Length
+        required: true
+        type: string
+      - default: localhost
+        description: localhost
+        in: header
+        name: Host
+        required: true
+        type: string
       - description: model.InputGetMessage
         in: body
         name: message
@@ -327,6 +399,24 @@ paths:
       - application/json
       description: SaveMessage
       parameters:
+      - default: application/json
+        description: application/json
+        in: header
+        name: Content-Type
+        required: true
+        type: string
+      - default: "1000"
+        description: "1000"
+        in: header
+        name: Content-Length
+        required: true
+        type: string
+      - default: localhost
+        description: localhost
+        in: header
+        name: Host
+        required: true
+        type: string
       - description: Authorization
         in: header
         name: Authorization

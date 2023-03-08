@@ -185,6 +185,9 @@ func (i *Interactor) Putfirebase(c echo.Context) error {
 // @Tags MonggoDB
 // @Accept json
 // @Produce json
+// @Param Content-Type header string true "application/json" default(application/json)
+// @Param Content-Length header string true "1000" default(1000)
+// @Param Host header string true "localhost" default(localhost)
 // @Param user body  model.Login true "model.Login"
 // @Success 201 {object} model.Token
 // @Failure 400 {object} string
@@ -224,6 +227,9 @@ func (i *Interactor) LoginUser(context echo.Context) error {
 // @Tags MonggoDB
 // @Accept json
 // @Produce json
+// @Param Content-Type header string true "application/json" default(application/json)
+// @Param Content-Length header string true "1000" default(1000)
+// @Param Host header string true "localhost" default(localhost)
 // @Param token body model.RegisterUser true "model.RegisterUser"
 // @Success 200 {object} string
 // @Failure 400 {object} string
@@ -328,6 +334,9 @@ func (i *Interactor) PutMovies(context echo.Context) error {
 // @Tags MonggoDB
 // @Accept json
 // @Produce json
+// @Param Content-Type header string true "application/json" default(application/json)
+// @Param Content-Length header string true "1000" default(1000)
+// @Param Host header string true "localhost" default(localhost)
 // @Param Authorization header string true "Authorization"
 // @Success 200 {object} string
 // @Failure 400 {object} error
@@ -352,6 +361,9 @@ func (i *Interactor) GetLogout(context echo.Context) error {
 // @Tags MonggoDB
 // @Accept json
 // @Produce json
+// @Param Content-Type header string true "application/json" default(application/json)
+// @Param Content-Length header string true "1000" default(1000)
+// @Param Host header string true "localhost" default(localhost)
 // @Param Authorization header string true "Authorization"
 // @Param token body model.Message true "model.Message"
 // @Success 200 {object} string
@@ -385,6 +397,9 @@ func (i *Interactor) SaveMessage(context echo.Context) error {
 // @Tags MonggoDB
 // @Accept json
 // @Produce json
+// @Param Content-Type header string true "application/json" default(application/json)
+// @Param Content-Length header string true "1000" default(1000)
+// @Param Host header string true "localhost" default(localhost)
 // @Param message body model.InputGetMessage true "model.InputGetMessage"
 // @Success 200 {object} string
 // @Failure 400 {object} error

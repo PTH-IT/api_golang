@@ -15,6 +15,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v4"
 	echo "github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
@@ -47,6 +48,10 @@ func Run() {
 	api := commonhandler{
 		Interactor: &interactor,
 	}
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{"*"},
+	}))
 	g := e.Group("/gormdb")
 
 	g.POST("/login", AppV1PostLoginGormdb(api))
