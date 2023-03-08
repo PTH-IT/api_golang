@@ -49,7 +49,7 @@ definitions:
       type:
         type: string
     type: object
-host: https://apigolang-production.up.railway.app/
+host: https://apigolang-production.up.railway.app
 info:
   contact:
     email: haupham404
