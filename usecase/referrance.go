@@ -22,6 +22,8 @@ type Reference interface {
 	AddUser(userId string, password string, email string) error
 	GetConnectionID(userId string) (*model.GetUser, error)
 	UpdateConnectionID(userId string, connectionid string) error
+	SaveMessage(message *model.Message) error
+	Getmessage(message *model.InputGetMessage) ([]*model.GetMessage, error)
 }
 
 func NewReferrance(
@@ -100,4 +102,16 @@ func (r reference) AddMovies(name string, title string, location string) error {
 
 	err := r.mongoRepository.AddMovies(name, title, location)
 	return err
+}
+func (r reference) SaveMessage(message *model.Message) error {
+
+	err := r.mongoRepository.SaveMessage(message)
+	return err
+}
+func (r reference) Getmessage(message *model.InputGetMessage) ([]*model.GetMessage, error) {
+	result, err := r.mongoRepository.Getmessage(message)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }

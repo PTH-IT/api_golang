@@ -292,6 +292,7 @@ func (i *Interactor) GetMovies(c echo.Context) error {
 // @Tags MonggoDB
 // @Accept json
 // @Produce json
+// @Param Authorization header string true "Authorization"
 // @Success 201 {object} string
 // @Failure 400 {object} error
 // @Router /addmovies [post]
@@ -319,4 +320,97 @@ func (i *Interactor) PutMovies(context echo.Context) error {
 		return err
 	}
 	return context.String(http.StatusOK, "susscess")
+}
+
+// GetLogout godoc
+// @Summary GetLogout
+// @Description GetLogout
+// @Tags MonggoDB
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Authorization"
+// @Success 200 {object} string
+// @Failure 400 {object} error
+// @Router /logout [get]
+func (i *Interactor) GetLogout(context echo.Context) error {
+	authercations := context.Request().Header.Get("Authorization")
+	user := utils.ParseToken(authercations)
+	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
+	if !utils.GetToken(authercations, userID) {
+		return context.String(http.StatusForbidden, "token awrong")
+	}
+	if !utils.DeleteToken(authercations, userID) {
+		return context.String(http.StatusBadRequest, "Can not delete token")
+	}
+
+	return context.String(http.StatusOK, "susscess")
+}
+
+// SaveMessage godoc
+// @Summary SaveMessage
+// @Description SaveMessage
+// @Tags MonggoDB
+// @Accept json
+// @Produce json
+// @Param Authorization header string true "Authorization"
+// @Param token body model.Message true "model.Message"
+// @Success 200 {object} string
+// @Failure 400 {object} error
+// @Router /savemessage [post]
+func (i *Interactor) SaveMessage(context echo.Context) error {
+	authercations := context.Request().Header.Get("Authorization")
+	user := utils.ParseToken(authercations)
+	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
+	if !utils.GetToken(authercations, userID) {
+		return context.String(http.StatusForbidden, "token awrong")
+	}
+	var message *model.Message
+	err := context.Bind(&message)
+
+	if err != nil || message.Receiver == "" || message.Sender == "" || message.Detail == "" {
+		errData := map[string]interface{}{
+			"message": "request body is invalid",
+		}
+		return context.JSON(http.StatusBadRequest, errData)
+	}
+	message.Time = utils.GettimeNumber()
+	err = i.referrance.SaveMessage(message)
+
+	return context.String(http.StatusOK, "susscess")
+}
+
+// GetMessage godoc
+// @Summary GetMessage
+// @Description GetMessage
+// @Tags MonggoDB
+// @Accept json
+// @Produce json
+// @Param message body model.InputGetMessage true "model.InputGetMessage"
+// @Success 200 {object} string
+// @Failure 400 {object} error
+// @Router /message [post]
+func (i *Interactor) GetMessage(context echo.Context) error {
+	authercations := context.Request().Header.Get("Authorization")
+	user := utils.ParseToken(authercations)
+	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
+	if !utils.GetToken(authercations, userID) {
+		return context.String(http.StatusForbidden, "token awrong")
+	}
+	var message *model.InputGetMessage
+	err := context.Bind(&message)
+
+	if err != nil || message.Receiver == "" || message.Sender == "" {
+		errData := map[string]interface{}{
+			"message": "request body is invalid",
+		}
+		return context.JSON(http.StatusBadRequest, errData)
+	}
+
+	result, err := i.referrance.Getmessage(message)
+	if err != nil {
+		return context.String(http.StatusBadRequest, err.Error())
+	} else {
+		return context.JSON(http.StatusOK, result)
+	}
+
 }

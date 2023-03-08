@@ -1,7 +1,9 @@
 package usecase
 
 import (
+	"PTH-IT/api_golang/domain/model"
 	"PTH-IT/api_golang/utils"
+	"encoding/json"
 	"log"
 	"net/http"
 	"sync"
@@ -49,7 +51,7 @@ var (
 	upgrader = websocket.Upgrader{}
 )
 
-func (i *Interactor) GetMessage(c echo.Context) error {
+func (i *Interactor) SocketMessage(c echo.Context) error {
 	authercations := c.QueryParams().Get("token")
 	user := utils.ParseToken(authercations)
 	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
@@ -89,15 +91,17 @@ func (i *Interactor) GetMessage(c echo.Context) error {
 				log.Println("Read error:", err)
 				return
 			} else {
-				result, err := i.referrance.GetConnectionID(userID)
-
+				var message *model.Websocket
+				err := json.Unmarshal(msg, &message)
 				if err != nil {
 					return
 				}
-				if result == nil {
+				result, err := i.referrance.GetConnectionID(message.Receiver)
+
+				if err != nil || result == nil {
 					return
 				} else {
-					i.handleMsg(cm, result.ConnectionId, string(msg))
+					i.handleMsg(cm, result.ConnectionId, message.Detail)
 				}
 
 			}
@@ -115,7 +119,7 @@ func (i *Interactor) handleMsg(cm *clientsMap, connection string, msg string) {
 	} else if client != nil {
 
 		// Send a message to the client
-		err := client.conn.WriteMessage(websocket.TextMessage, []byte("Received message: "+msg))
+		err := client.conn.WriteMessage(websocket.TextMessage, []byte(msg))
 		if err != nil {
 			log.Println("Write error:", err)
 			return

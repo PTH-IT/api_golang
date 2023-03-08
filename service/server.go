@@ -61,7 +61,10 @@ func Run() {
 	e.POST("/register", AppV1RegisterUser(api))
 	e.POST("/addmovies", AppV1AddMovies(api))
 	e.GET("/getmovies", AppV1GetMovies(api))
-	e.GET("/message", AppV1GetMessage(api))
+	e.GET("/socketmessage", AppV1SocketMessage(api))
+	e.GET("/logout", AppV1GetLogout(api))
+	e.POST("/savemessage", AppV1SaveMessage(api))
+	e.POST("/message", AppV1GetMessage(api))
 
 	e.GET("/swageer/*", echoSwagger.WrapHandler)
 	fmt.Println("" + config.Getconfig().Port)

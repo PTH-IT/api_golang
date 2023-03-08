@@ -1,10 +1,28 @@
 definitions:
+  model.InputGetMessage:
+    properties:
+      receiver:
+        type: string
+      sender:
+        type: string
+    type: object
   model.Login:
     properties:
-      password:
+      Password:
         type: string
-      userID:
+      UserID:
         type: string
+    type: object
+  model.Message:
+    properties:
+      detail:
+        type: string
+      receiver:
+        type: string
+      sender:
+        type: string
+      time:
+        type: integer
     type: object
   model.Movies:
     properties:
@@ -47,6 +65,12 @@ paths:
       consumes:
       - application/json
       description: login username
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
       produces:
       - application/json
       responses:
@@ -246,6 +270,85 @@ paths:
           schema:
             type: string
       summary: LoginUser
+      tags:
+      - MonggoDB
+  /logout:
+    get:
+      consumes:
+      - application/json
+      description: GetLogout
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: GetLogout
+      tags:
+      - MonggoDB
+  /message:
+    post:
+      consumes:
+      - application/json
+      description: GetMessage
+      parameters:
+      - description: model.InputGetMessage
+        in: body
+        name: message
+        required: true
+        schema:
+          $ref: '#/definitions/model.InputGetMessage'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: GetMessage
+      tags:
+      - MonggoDB
+  /savemessage:
+    post:
+      consumes:
+      - application/json
+      description: SaveMessage
+      parameters:
+      - description: Authorization
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: model.Message
+        in: body
+        name: token
+        required: true
+        schema:
+          $ref: '#/definitions/model.Message'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema: {}
+      summary: SaveMessage
       tags:
       - MonggoDB
 swagger: "2.0"

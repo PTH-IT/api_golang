@@ -12,4 +12,6 @@ type MonggoRepository interface {
 	AddMovies(name string, title string, location string) error
 	GetConnectionID(userId string) (*model.GetUser, error)
 	UpdateConnectionID(userId string, connectionid string) error
+	SaveMessage(message *model.Message) error
+	Getmessage(message *model.InputGetMessage) ([]*model.GetMessage, error)
 }

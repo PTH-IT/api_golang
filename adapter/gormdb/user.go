@@ -1,10 +1,9 @@
 package gormdb
 
 import (
-	"time"
-
 	"PTH-IT/api_golang/domain/model"
 	"PTH-IT/api_golang/domain/repository"
+	"PTH-IT/api_golang/utils"
 )
 
 func NewUser() repository.UserRepository {
@@ -29,8 +28,8 @@ func (repo userRepository) AddUser(userId string, password string) error {
 		UserID:      userId,
 		Password:    password,
 		Status:      "0",
-		CreatedTime: time.Now().UTC().Local().Format(time.RFC3339Nano),
-		UpdatedTime: time.Now().UTC().Local().Format(time.RFC3339Nano),
+		CreatedTime: utils.GettimeNow(),
+		UpdatedTime: utils.GettimeNow(),
 	}
 	err = DB.Table("user").Create(user).Error
 

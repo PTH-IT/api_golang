@@ -69,9 +69,28 @@ func AppV1RegisterUser(api commonhandler) echo.HandlerFunc {
 	}
 }
 
+func AppV1SocketMessage(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.SocketMessage(context)
+	}
+}
+
+func AppV1GetLogout(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.GetLogout(context)
+	}
+}
 func AppV1GetMessage(api commonhandler) echo.HandlerFunc {
 
 	return func(context echo.Context) error {
 		return api.Interactor.GetMessage(context)
+	}
+}
+func AppV1SaveMessage(api commonhandler) echo.HandlerFunc {
+
+	return func(context echo.Context) error {
+		return api.Interactor.SaveMessage(context)
 	}
 }

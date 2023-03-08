@@ -47,3 +47,12 @@ func SetToken(token string, userID string) error {
 	}
 	return nil
 }
+func DeleteToken(token string, userID string) bool {
+	rdb := RedisClient()
+	err := rdb.Del(ctx, userID).Err()
+	if err != nil {
+		return false
+	}
+	return true
+
+}
