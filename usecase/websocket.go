@@ -89,7 +89,16 @@ func (i *Interactor) GetMessage(c echo.Context) error {
 				log.Println("Read error:", err)
 				return
 			} else {
-				i.handleMsg(cm, userID, string(msg))
+				result, err := i.referrance.GetConnectionID(userID)
+
+				if err != nil {
+					return
+				}
+				if result == nil {
+					return
+				} else {
+					i.handleMsg(cm, userID, string(msg))
+				}
 
 			}
 
@@ -98,26 +107,18 @@ func (i *Interactor) GetMessage(c echo.Context) error {
 	return nil
 }
 
-func (i *Interactor) handleMsg(cm *clientsMap, UserID string, msg string) {
+func (i *Interactor) handleMsg(cm *clientsMap, connection string, msg string) {
 	// Get the client by connection ID
-	client, ok := cm.getClientByID(UserID)
+	client, ok := cm.getClientByID(connection)
 	if !ok {
 		return
 	} else if client != nil {
 
-		result, err := i.referrance.GetConnectionID(UserID)
+		// Send a message to the client
+		err := client.conn.WriteMessage(websocket.TextMessage, []byte("Received message: "+msg))
 		if err != nil {
+			log.Println("Write error:", err)
 			return
-		}
-		if result == nil {
-			return
-		} else {
-			// Send a message to the client
-			err = client.conn.WriteMessage(websocket.TextMessage, []byte("Received message: "+msg))
-			if err != nil {
-				log.Println("Write error:", err)
-				return
-			}
 		}
 
 	}
