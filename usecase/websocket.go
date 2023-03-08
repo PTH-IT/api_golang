@@ -97,7 +97,7 @@ func (i *Interactor) GetMessage(c echo.Context) error {
 				if result == nil {
 					return
 				} else {
-					i.handleMsg(cm, userID, string(msg))
+					i.handleMsg(cm, result.ConnectionId, string(msg))
 				}
 
 			}
