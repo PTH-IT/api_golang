@@ -74,6 +74,7 @@ func (i *Interactor) GetMessage(c echo.Context) error {
 	// Add the client to the clients map
 	cm.addClient(&client{conn: conn, id: connID})
 
+	i.referrance.UpdateConnectionID(userID, connID)
 	// Start a goroutine to read messages from the client
 	go func() {
 		defer func() {
