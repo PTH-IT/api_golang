@@ -114,6 +114,47 @@ func (r MongoDriverRepository) GetUser(userId string, password string) (*model.G
 
 	return listUser[0], nil
 }
+
+func (r MongoDriverRepository) GetConnectionID(userId string) (*model.GetUser, error) {
+
+	var listUser []*model.GetUser
+
+	client, err := Connect()
+	if err != nil {
+		return nil, err
+	}
+	defer func() {
+		if err := client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
+	coll := client.Database(config.Getconfig().Monggo.Db).Collection("users")
+	var result []bson.M
+
+	filter := bson.D{{Key: "userid", Value: userId}}
+	s, err := coll.Find(context.TODO(), filter)
+	if err != nil {
+		return nil, errormessage.PrintError("1", err)
+	}
+	err = s.All(context.TODO(), &result)
+	if err != nil {
+		return nil, errormessage.PrintError("1", err)
+	}
+	jsonToByte, err := json.Marshal(result)
+	if err != nil {
+		return nil, errormessage.PrintError("1", err)
+	}
+	err = json.Unmarshal(jsonToByte, &listUser)
+	if err != nil {
+		return nil, errormessage.PrintError("1", err)
+	}
+	if len(listUser) == 0 {
+		return nil, nil
+	}
+
+	return listUser[0], nil
+}
+
 func (r MongoDriverRepository) CheckUserName(userId string, email string) ([]*model.GetUser, error) {
 	var listUser []*model.GetUser
 

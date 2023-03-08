@@ -8,8 +8,8 @@ type User struct {
 	UpdatedTime string `gorm:"column:updated_time"`
 }
 type Login struct {
-	UserID   string `gorm:"UserID"`
-	Password string `gorm:"Password"`
+	UserID   string `json:"UserID"`
+	Password string `json:"Password"`
 }
 
 type RegisterUser struct {

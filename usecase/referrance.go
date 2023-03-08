@@ -20,6 +20,7 @@ type Reference interface {
 	GetUser(userId string, password string) (*model.GetUser, error)
 	CheckUserName(userId string, email string) ([]*model.GetUser, error)
 	AddUser(userId string, password string, email string) error
+	GetConnectionID(userId string) (*model.GetUser, error)
 }
 
 func NewReferrance(
@@ -69,6 +70,12 @@ func (r reference) CheckUserName(userId string, email string) ([]*model.GetUser,
 func (r reference) GetUser(userId string, password string) (*model.GetUser, error) {
 	InforLog.PrintLog(fmt.Sprintf("r.mongoRepository.GetUser call"))
 	user, err := r.mongoRepository.GetUser(userId, password)
+	return user, err
+}
+
+func (r reference) GetConnectionID(userId string) (*model.GetUser, error) {
+	InforLog.PrintLog(fmt.Sprintf("r.mongoRepository.GetUser call"))
+	user, err := r.mongoRepository.GetConnectionID(userId)
 	return user, err
 }
 func (r reference) AddUser(userId string, password string, email string) error {
