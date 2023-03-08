@@ -155,6 +155,43 @@ func (r MongoDriverRepository) GetConnectionID(userId string) (*model.GetUser, e
 	return listUser[0], nil
 }
 
+func (r MongoDriverRepository) UpdateConnectionID(userId string, connectionid string) error {
+
+	var listUser []*model.GetUser
+
+	client, err := Connect()
+	if err != nil {
+		return err
+	}
+	defer func() {
+		if err := client.Disconnect(context.TODO()); err != nil {
+			panic(err)
+		}
+	}()
+	coll := client.Database(config.Getconfig().Monggo.Db).Collection("users")
+	var result []bson.M
+
+	filter := bson.D{{Key: "userid", Value: userId}}
+
+	update := bson.D{{"$set", bson.D{{"connectionid", connectionid}}}}
+	_, err = coll.UpdateOne(context.TODO(), filter, update)
+	if err != nil {
+		return errormessage.PrintError("1", err)
+	}
+	jsonToByte, err := json.Marshal(result)
+	if err != nil {
+		return errormessage.PrintError("1", err)
+	}
+	err = json.Unmarshal(jsonToByte, &listUser)
+	if err != nil {
+		return errormessage.PrintError("1", err)
+	}
+	if len(listUser) == 0 {
+		return nil
+	}
+
+	return nil
+}
 func (r MongoDriverRepository) CheckUserName(userId string, email string) ([]*model.GetUser, error) {
 	var listUser []*model.GetUser
 

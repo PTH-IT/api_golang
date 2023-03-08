@@ -11,4 +11,5 @@ type MonggoRepository interface {
 	Getmongo() ([]*model.Movies, error)
 	AddMovies(name string, title string, location string) error
 	GetConnectionID(userId string) (*model.GetUser, error)
+	UpdateConnectionID(userId string, connectionid string) error
 }
