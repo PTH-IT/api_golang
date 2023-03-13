@@ -365,11 +365,13 @@ func (i *Interactor) GetLogout(context echo.Context) error {
 	InforLog.PrintLog(fmt.Sprintf("GetLogout start"))
 
 	authercations := context.Request().Header.Get("Authorization")
-	InforLog.PrintLog(fmt.Sprintf("authercations = %v", authercations))
+	InforLog.PrintLog(fmt.Sprintf("authercations = %s", authercations))
 
 	user := utils.ParseToken(authercations)
+	InforLog.PrintLog(fmt.Sprintf("user = %v", user))
+
 	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
-	InforLog.PrintLog(fmt.Sprintf("userID = %v", userID))
+	InforLog.PrintLog(fmt.Sprintf("userID = %s", userID))
 	InforLog.PrintLog(fmt.Sprintf("utils.GetToken"))
 
 	if !utils.GetToken(authercations, userID) {
