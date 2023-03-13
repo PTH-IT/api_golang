@@ -11,12 +11,14 @@ type commonhandler struct {
 }
 
 func AppV1GetUsersGormdb(api commonhandler) echo.HandlerFunc {
+
 	return func(context echo.Context) error {
 		return api.Interactor.GetUserGormdb(context)
 	}
 
 }
 func AppV1PostLoginGormdb(api commonhandler) echo.HandlerFunc {
+
 	return func(context echo.Context) error {
 		return api.Interactor.LoginUserGormdb(context)
 	}
@@ -57,6 +59,7 @@ func AppV1GetMovies(api commonhandler) echo.HandlerFunc {
 }
 
 func AppV1PostLogin(api commonhandler) echo.HandlerFunc {
+
 	return func(context echo.Context) error {
 		return api.Interactor.LoginUser(context)
 	}

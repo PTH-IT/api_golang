@@ -45,6 +45,7 @@ type Interactor struct {
 // @Failure 400 {object} string
 // @Router /gormdb/login [post]
 func (i *Interactor) LoginUserGormdb(context echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("LoginUserGormdb start"))
 
 	var user model.Login
 	err := context.Bind(&user)
@@ -84,6 +85,7 @@ func (i *Interactor) LoginUserGormdb(context echo.Context) error {
 // @Failure 400 {object} string
 // @Router /gormdb/user [get]
 func (i *Interactor) GetUserGormdb(context echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("GetUserGormdb start"))
 
 	authercations := context.Request().Header.Get("token")
 	user := utils.ParseToken(authercations)
@@ -107,6 +109,8 @@ func (i *Interactor) GetUserGormdb(context echo.Context) error {
 // @Failure 400 {object} string
 // @Router /gormdb/adduser [post]
 func (i *Interactor) AddUserGormdb(context echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("AddUserGormdb start"))
+
 	authercations := context.Request().Header.Get("Authorization")
 	user := utils.ParseToken(authercations)
 	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
@@ -149,6 +153,8 @@ func (i *Interactor) AddUserGormdb(context echo.Context) error {
 // @Failure 400 {object} error
 // @Router /firebase/getfirebase [get]
 func (i *Interactor) Getfirebase(c echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("Getfirebase start"))
+
 	result, err := i.referrance.Getfirebase()
 	if err != nil {
 		return err
@@ -171,6 +177,8 @@ func (i *Interactor) Getfirebase(c echo.Context) error {
 // @Failure 400 {object} error
 // @Router /firebase/putfirebase [post]
 func (i *Interactor) Putfirebase(c echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("Putfirebase start"))
+
 	err := i.referrance.Putfirebase()
 	if err != nil {
 		return err
@@ -194,11 +202,14 @@ func (i *Interactor) Putfirebase(c echo.Context) error {
 // @Router /login [post]
 func (i *Interactor) LoginUser(context echo.Context) error {
 	InforLog.PrintLog(fmt.Sprintf("LoginUser start"))
+
 	var user model.Login
 	err := context.Bind(&user)
 	if err != nil {
 		return context.String(http.StatusBadRequest, errormessage.PrintError("3", err).Error())
 	}
+	InforLog.PrintLog(fmt.Sprintf("reqest user: %v", user))
+
 	result, err := i.referrance.GetUser(user.UserID, *utils.CryptPassword(user.Password))
 	if err != nil {
 		return context.String(http.StatusBadRequest, err.Error())
@@ -213,6 +224,8 @@ func (i *Interactor) LoginUser(context echo.Context) error {
 		Authorization: tokenString,
 		Type:          "bearer",
 	}
+	InforLog.PrintLog(fmt.Sprintf("response token: %v", token))
+
 	err = utils.SetToken(tokenString, user.UserID)
 	if err != nil {
 		return context.String(http.StatusBadRequest, errormessage.PrintError("5", err).Error())
@@ -235,6 +248,8 @@ func (i *Interactor) LoginUser(context echo.Context) error {
 // @Failure 400 {object} string
 // @Router /adduser [post]
 func (i *Interactor) RegisterUser(context echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("RegisterUser start"))
+
 	var Adduser model.RegisterUser
 	err := context.Bind(&Adduser)
 
@@ -244,6 +259,7 @@ func (i *Interactor) RegisterUser(context echo.Context) error {
 		}
 		return context.JSON(http.StatusBadRequest, errData)
 	}
+	InforLog.PrintLog(fmt.Sprintf("reqest user: %v", Adduser))
 
 	cryptPassword := utils.CryptPassword(Adduser.Password)
 	result, err := i.referrance.CheckUserName(Adduser.UserID, Adduser.Email)
@@ -281,6 +297,8 @@ func (i *Interactor) RegisterUser(context echo.Context) error {
 // @Failure 400 {object} error
 // @Router /getmovies [get]
 func (i *Interactor) GetMovies(c echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("GetMovies start"))
+
 	result, err := i.referrance.GetMovies()
 	if err != nil {
 		return err
@@ -303,6 +321,8 @@ func (i *Interactor) GetMovies(c echo.Context) error {
 // @Failure 400 {object} error
 // @Router /addmovies [post]
 func (i *Interactor) PutMovies(context echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("PutMovies start"))
+
 	authercations := context.Request().Header.Get("Authorization")
 	user := utils.ParseToken(authercations)
 	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
@@ -342,6 +362,8 @@ func (i *Interactor) PutMovies(context echo.Context) error {
 // @Failure 400 {object} error
 // @Router /logout [get]
 func (i *Interactor) GetLogout(context echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("GetLogout start"))
+
 	authercations := context.Request().Header.Get("Authorization")
 	user := utils.ParseToken(authercations)
 	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
@@ -370,6 +392,8 @@ func (i *Interactor) GetLogout(context echo.Context) error {
 // @Failure 400 {object} error
 // @Router /savemessage [post]
 func (i *Interactor) SaveMessage(context echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("SaveMessage start"))
+
 	authercations := context.Request().Header.Get("Authorization")
 	user := utils.ParseToken(authercations)
 	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
@@ -405,6 +429,8 @@ func (i *Interactor) SaveMessage(context echo.Context) error {
 // @Failure 400 {object} error
 // @Router /message [post]
 func (i *Interactor) GetMessage(context echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("GetMessage start"))
+
 	authercations := context.Request().Header.Get("Authorization")
 	user := utils.ParseToken(authercations)
 	userID := user.Claims.(jwt.MapClaims)["userID"].(string)

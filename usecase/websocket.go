@@ -2,8 +2,10 @@ package usecase
 
 import (
 	"PTH-IT/api_golang/domain/model"
+	InforLog "PTH-IT/api_golang/log/infor"
 	"PTH-IT/api_golang/utils"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"sync"
@@ -52,6 +54,8 @@ var (
 )
 
 func (i *Interactor) SocketMessage(c echo.Context) error {
+	InforLog.PrintLog(fmt.Sprintf("SocketMessage start"))
+
 	authercations := c.QueryParams().Get("token")
 	user := utils.ParseToken(authercations)
 	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
