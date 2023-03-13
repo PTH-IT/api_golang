@@ -365,14 +365,22 @@ func (i *Interactor) GetLogout(context echo.Context) error {
 	InforLog.PrintLog(fmt.Sprintf("GetLogout start"))
 
 	authercations := context.Request().Header.Get("Authorization")
+	InforLog.PrintLog(fmt.Sprintf("authercations = %v", authercations))
+
 	user := utils.ParseToken(authercations)
 	userID := user.Claims.(jwt.MapClaims)["userID"].(string)
+	InforLog.PrintLog(fmt.Sprintf("userID = %v", userID))
+	InforLog.PrintLog(fmt.Sprintf("utils.GetToken"))
+
 	if !utils.GetToken(authercations, userID) {
 		return context.String(http.StatusForbidden, "token awrong")
 	}
+	InforLog.PrintLog(fmt.Sprintf("utils.DeleteToken"))
+
 	if !utils.DeleteToken(authercations, userID) {
 		return context.String(http.StatusBadRequest, "Can not delete token")
 	}
+	InforLog.PrintLog(fmt.Sprintf("StatusOK"))
 
 	return context.String(http.StatusOK, "susscess")
 }
